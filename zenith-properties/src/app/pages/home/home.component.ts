@@ -22,30 +22,30 @@ import { PropertyService } from '../../core/property.service';
           <div data-reveal>
             <div class="mb-7 flex items-center gap-4">
               <span class="h-px w-12 bg-white/50"></span>
-              <p class="text-[10px] font-semibold uppercase tracking-[.28em] text-white/72">ZenithStay Properties Limited</p>
+              <p class="text-[11px] font-semibold uppercase tracking-[.22em] text-white/72">ZenithStay Properties Limited</p>
             </div>
-            <h1 class="max-w-5xl text-[clamp(3.8rem,8vw,8.4rem)] leading-[.82]" style="color: white;">
+            <h1 class="max-w-5xl text-[clamp(3.55rem,7.6vw,8.1rem)] leading-[.86]" style="color: white;">
               Residential value,<br><em class="font-normal text-white/80">deliberately created.</em>
             </h1>
             <div class="mt-9 grid max-w-3xl gap-7 border-t border-white/30 pt-6 sm:grid-cols-[1fr_auto] sm:items-end">
-              <p class="max-w-2xl text-[1rem] leading-relaxed text-white/72 md:text-[1.08rem]">
-                We acquire, reconfigure and improve residential property with disciplined delivery and a long-term ownership view.
+              <p class="max-w-2xl text-[1.02rem] leading-[1.72] text-white/76 md:text-[1.1rem]">
+                We acquire residential property where configuration, condition or presentation leaves clear room for improvement. Each project is planned around a defined value case, disciplined delivery and a long-term view of the completed asset.
               </p>
               <a routerLink="/portfolio" class="btn btn-light shrink-0">View our work</a>
             </div>
           </div>
 
           <aside class="border border-white/25 bg-black/25 p-6 backdrop-blur-md md:p-8" data-reveal [revealDelay]="90">
-            <p class="text-[10px] font-semibold uppercase tracking-[.24em] text-white/52">Operating mandate</p>
+            <p class="text-[11px] font-semibold uppercase tracking-[.18em] text-white/58">Operating mandate</p>
             <div class="mt-8 space-y-5">
               @for (signal of companySignals; track signal.label) {
                 <div class="grid grid-cols-[92px_1fr] gap-4 border-t border-white/20 pt-4">
-                  <p class="text-[9px] font-semibold uppercase tracking-[.2em] text-white/42">{{ signal.label }}</p>
-                  <p class="display-serif text-xl text-white/90">{{ signal.value }}</p>
+                  <p class="text-[10px] font-semibold uppercase tracking-[.14em] text-white/48">{{ signal.label }}</p>
+                  <p class="display-serif text-[1.35rem] text-white/90">{{ signal.value }}</p>
                 </div>
               }
             </div>
-            <a routerLink="/strategy" class="mt-8 inline-flex text-[10px] font-semibold uppercase tracking-[.2em] text-white">Read our investment approach <span class="ml-3">→</span></a>
+            <a routerLink="/strategy" class="mt-8 inline-flex text-[11px] font-semibold uppercase tracking-[.16em] text-white">Read our investment approach <span class="ml-3">→</span></a>
           </aside>
         </div>
       </div>
@@ -57,18 +57,18 @@ import { PropertyService } from '../../core/property.service';
         <div class="grid gap-10 lg:grid-cols-[.42fr_1.58fr]">
           <div data-reveal>
             <p class="eyebrow">The mandate</p>
-            <p class="mt-5 max-w-[190px] text-[12px] leading-relaxed" style="color: var(--color-muted);">Independent residential investment · United Kingdom</p>
+            <p class="mt-5 max-w-[210px] text-[13px] leading-relaxed" style="color: var(--color-muted);">Independent residential investment · United Kingdom</p>
           </div>
           <div>
             <h2 class="max-w-6xl text-[clamp(3.2rem,6.5vw,6.7rem)] leading-[.92]" data-reveal>
               A focused property company where every acquisition must <em class="font-normal" style="color: var(--color-oak-deep);">justify its place.</em>
             </h2>
-            <div class="mt-12 grid gap-8 border-t pt-8 md:grid-cols-[1.15fr_.85fr]" style="border-color: var(--color-line-strong);" data-reveal [revealDelay]="70">
-              <p class="max-w-2xl text-[1.08rem] leading-relaxed" style="color: var(--color-slate);">
-                ZenithStay Properties Limited is building a concentrated residential portfolio through selective acquisition, meaningful reconfiguration and coherent improvement.
+            <div class="mt-12 grid gap-8 border-t pt-8 md:grid-cols-[1.08fr_.92fr]" style="border-color: var(--color-line-strong);" data-reveal [revealDelay]="70">
+              <p class="max-w-2xl text-[1.08rem] leading-[1.75]" style="color: var(--color-slate);">
+                ZenithStay Properties Limited is an independent property company building a focused UK residential portfolio. We look for homes where a better layout, considered refurbishment and clear specification can create lasting utility rather than a short-term cosmetic uplift.
               </p>
-              <p class="max-w-xl text-[15px] leading-relaxed" style="color: var(--color-muted);">
-                The objective is not activity for its own sake. It is to create better-resolved assets, document the evidence and grow from a foundation partners can understand.
+              <p class="max-w-xl text-[16px] leading-[1.75]" style="color: var(--color-muted);">
+                Our decisions begin with the asset itself: its existing accommodation, realistic improvement scope, delivery complexity, total capital requirement and fit with the wider portfolio. The objective is measured growth supported by completed evidence that lenders, advisers and investment partners can understand.
               </p>
             </div>
           </div>
@@ -77,13 +77,13 @@ import { PropertyService } from '../../core/property.service';
         <div class="mt-20 grid gap-px overflow-hidden border" style="border-color: var(--color-line-strong); background: var(--color-line-strong);" data-reveal>
           <div class="grid gap-px md:grid-cols-3" style="background: var(--color-line-strong);">
             @for (pillar of pillars; track pillar.title; let i = $index) {
-              <article class="min-h-[260px] p-7 md:p-9" style="background: var(--color-surface);">
+              <article class="min-h-[300px] p-7 md:p-9" style="background: var(--color-surface);">
                 <div class="flex items-center justify-between">
                   <p class="index-label">0{{ i + 1 }}</p>
                   <span class="display-serif text-2xl" style="color: var(--color-oak);">—</span>
                 </div>
-                <h3 class="mt-16 text-[2rem]">{{ pillar.title }}</h3>
-                <p class="mt-4 max-w-sm text-[14px] leading-relaxed" style="color: var(--color-slate);">{{ pillar.body }}</p>
+                <h3 class="mt-14 text-[2rem]">{{ pillar.title }}</h3>
+                <p class="mt-4 max-w-sm text-[15px] leading-[1.72]" style="color: var(--color-slate);">{{ pillar.body }}</p>
               </article>
             }
           </div>
@@ -131,13 +131,19 @@ import { PropertyService } from '../../core/property.service';
           </div>
         </div>
 
-        <div class="mt-8 grid gap-7 border-t pt-7 md:grid-cols-[1.3fr_.7fr]" style="border-color: rgba(244,241,234,.2);">
-          <p class="max-w-3xl text-[15px] leading-relaxed" style="color: rgba(244,241,234,.62);" data-reveal>
-            Priory Road demonstrates the model in a completed asset: underused residential space resolved into a more capable layout, then carried through with a consistent material and delivery standard.
-          </p>
+        <div class="mt-8 grid gap-9 border-t pt-8 md:grid-cols-[1.28fr_.72fr]" style="border-color: rgba(244,241,234,.2);">
+          <div class="max-w-3xl" data-reveal>
+            <p class="text-[16px] leading-[1.75]" style="color: rgba(244,241,234,.72);">
+              Priory Road began as a two-bedroom house with underused residential capacity. ZenithStay reconfigured the accommodation to create four bedrooms, then coordinated a comprehensive refurbishment across the kitchen, bathrooms, joinery, flooring, lighting and building fabric.
+            </p>
+            <p class="mt-5 text-[15px] leading-[1.75]" style="color: rgba(244,241,234,.54);">
+              The completed home is the first tangible evidence of our model: use space more intelligently, define the work clearly and carry every room through to a consistent standard with long-term everyday utility in mind.
+            </p>
+            <a [routerLink]="['/project', latestProject.slug]" class="mt-6 inline-flex text-[11px] font-semibold uppercase tracking-[.16em]" style="color: var(--color-oak-soft);">Read the complete case study <span class="ml-3">→</span></a>
+          </div>
           <div class="flex flex-wrap gap-x-8 gap-y-3 md:justify-end" data-reveal [revealDelay]="60">
-            <p class="text-[10px] font-semibold uppercase tracking-[.2em] text-white/50">Greater London</p>
-            <p class="text-[10px] font-semibold uppercase tracking-[.2em] text-white/50">Completed {{ latestProject.specs.yearRenovated }}</p>
+            <p class="text-[11px] font-semibold uppercase tracking-[.16em] text-white/50">Greater London</p>
+            <p class="text-[11px] font-semibold uppercase tracking-[.16em] text-white/50">Completed {{ latestProject.specs.yearRenovated }}</p>
           </div>
         </div>
       </div>
@@ -149,8 +155,8 @@ import { PropertyService } from '../../core/property.service';
         <div data-reveal>
           <p class="eyebrow mb-5">Operating discipline</p>
           <h2 class="max-w-xl text-[clamp(3.2rem,5.5vw,5.5rem)]">A clear logic from acquisition to ownership.</h2>
-          <p class="mt-8 max-w-md text-[15px] leading-relaxed" style="color: var(--color-slate);">
-            Each stage has a job to do. The process stays legible so that decisions can be understood by the people financing, advising on and working alongside the business.
+          <p class="mt-8 max-w-lg text-[16px] leading-[1.75]" style="color: var(--color-slate);">
+            Value is not created by refurbishment alone. It depends on selecting the right starting asset, testing the proposed intervention, controlling delivery and retaining a clear record of the decisions made. That discipline allows the people financing, advising on and working alongside ZenithStay to understand what is being done and why.
           </p>
           <a routerLink="/strategy" class="btn btn-ghost mt-8">Explore the full approach</a>
         </div>
@@ -160,7 +166,7 @@ import { PropertyService } from '../../core/property.service';
             <li class="grid gap-5 border-b py-8 sm:grid-cols-[64px_.55fr_1.45fr] sm:items-start" style="border-color: var(--color-line-strong);" data-reveal [revealDelay]="i * 55">
               <p class="index-label">0{{ i + 1 }}</p>
               <h3 class="text-[2rem]">{{ step.title }}</h3>
-              <p class="max-w-xl text-[14px] leading-relaxed" style="color: var(--color-slate);">{{ step.body }}</p>
+              <p class="max-w-xl text-[15px] leading-[1.72]" style="color: var(--color-slate);">{{ step.body }}</p>
             </li>
           }
         </ol>
@@ -173,8 +179,8 @@ import { PropertyService } from '../../core/property.service';
         <div class="lg:pr-10" data-reveal>
           <p class="eyebrow mb-5">Work with ZenithStay</p>
           <h2 class="max-w-2xl text-[clamp(3.3rem,6vw,6.1rem)]">Built through trusted relationships.</h2>
-          <p class="mt-8 max-w-xl text-[1rem] leading-relaxed" style="color: var(--color-slate);">
-            We welcome direct conversations with people who can strengthen the next acquisition, the next delivery programme or the long-term resilience of the portfolio.
+          <p class="mt-8 max-w-xl text-[1rem] leading-[1.75]" style="color: var(--color-slate);">
+            ZenithStay is being built through direct, credible relationships with people who understand residential property and value clear communication. Whether a conversation concerns lending, investment, acquisition or delivery, we begin with the asset, the proposed scope, the capital requirement and the long-term rationale.
           </p>
           <a routerLink="/enquire" class="btn btn-primary mt-8">Start a conversation</a>
         </div>
@@ -186,7 +192,7 @@ import { PropertyService } from '../../core/property.service';
               <p class="index-label">0{{ i + 1 }}</p>
               <div>
                 <h3 class="text-[1.8rem]">{{ audience.title }}</h3>
-                <p class="mt-2 max-w-xl text-[13px] leading-relaxed" style="color: var(--color-slate);">{{ audience.body }}</p>
+                <p class="mt-2 max-w-xl text-[15px] leading-[1.7]" style="color: var(--color-slate);">{{ audience.body }}</p>
               </div>
               <span class="hidden text-2xl transition-transform duration-300 group-hover:translate-x-1 sm:block" style="color: var(--color-oak-deep);">→</span>
             </a>
@@ -207,22 +213,22 @@ export class HomeComponent {
   ];
 
   readonly pillars = [
-    { title: 'Selective acquisition', body: 'Find residential assets where configuration, condition or presentation obscures credible underlying potential.' },
-    { title: 'Material improvement', body: 'Direct capital to the layout, fabric and specification decisions that make the finished home meaningfully better.' },
-    { title: 'Responsible ownership', body: 'Carry quality beyond completion through a long-term view of performance, resilience and stewardship.' },
+    { title: 'Selective acquisition', body: 'We consider location, existing accommodation, condition and realistic improvement potential together. An opportunity must support a clear residential case before it earns a place in the portfolio.' },
+    { title: 'Defined value plan', body: 'The proposed layout, refurbishment scope, specification, delivery complexity and capital requirement are considered as one plan. Investment is directed towards changes that improve how the whole home works.' },
+    { title: 'Responsible ownership', body: 'The completed asset is approached with a long-term view of utility, durability and performance. Project evidence is retained so that future decisions can build on what has already been delivered.' },
   ];
 
   readonly model = [
-    { title: 'Acquire', body: 'Assess the asset on fundamentals, improvement potential and strategic fit before a narrative is allowed to form.' },
-    { title: 'Resolve', body: 'Define a coherent plan for configuration, specification, delivery risk and the capital required to execute properly.' },
-    { title: 'Deliver', body: 'Manage the work consistently so that utility, material quality and finish support the same investment case.' },
-    { title: 'Steward', body: 'Protect the completed asset and use the evidence created to support measured portfolio growth.' },
+    { title: 'Acquire', body: 'Assess location, condition, existing configuration, residential demand and strategic fit. The underlying property fundamentals must make sense before an improvement narrative is allowed to form.' },
+    { title: 'Resolve', body: 'Translate the opportunity into a coherent layout, scope of work, specification, delivery sequence and capital plan, with the principal risks visible before work begins.' },
+    { title: 'Deliver', body: 'Coordinate trades, materials, quality and progress against the defined scope. Changes are judged by whether they protect the utility and integrity of the completed asset.' },
+    { title: 'Steward', body: 'Maintain a long-term view of the finished home, retain the project record and carry practical evidence from each completed asset into future acquisition decisions.' },
   ];
 
   readonly audiences = [
-    { title: 'Lenders & finance partners', body: 'Clear asset, scope and delivery conversations supported by a legible long-term strategy.', interest: 'Lending and finance' },
-    { title: 'Investors & strategic partners', body: 'Selective, asset-led opportunities for partners aligned with disciplined residential value creation.', interest: 'Investment partnership' },
-    { title: 'Agents & introducers', body: 'A practical route for residential opportunities with credible reconfiguration or improvement potential.', interest: 'Property opportunity' },
-    { title: 'Owners & vendors', body: 'Direct conversations about fit, timing and the next sensible step for a residential property.', interest: 'Property opportunity' },
+    { title: 'Lenders & finance partners', body: 'Asset-led conversations that set out the existing property, proposed intervention, delivery scope and long-term ownership rationale in a clear, practical way.', interest: 'Lending and finance' },
+    { title: 'Investors & strategic partners', body: 'Selective residential opportunities for partners who value tangible property fundamentals, disciplined improvement and measured portfolio growth.', interest: 'Investment partnership' },
+    { title: 'Agents & introducers', body: 'A responsive route for residential opportunities where configuration, condition or presentation may be obscuring credible underlying potential.', interest: 'Property opportunity' },
+    { title: 'Owners & vendors', body: 'Straightforward conversations about the property, timing, circumstances and whether ZenithStay can provide a sensible route to the next stage.', interest: 'Property opportunity' },
   ];
 }

@@ -15,8 +15,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
           <img src="brand/zenith-mark-header.png" alt="" aria-hidden="true" width="160" height="160"
                class="h-11 w-11 shrink-0 object-contain transition-transform duration-300 group-hover:scale-[1.03]" />
           <span>
-            <span class="block text-[12px] font-semibold uppercase tracking-[.18em] leading-none">ZenithStay</span>
-            <span class="mt-1.5 block text-[9px] uppercase tracking-[.34em] leading-none" style="color: var(--color-muted);">Properties</span>
+            <span class="block text-[12px] font-semibold uppercase tracking-[.16em] leading-none">ZenithStay</span>
+            <span class="mt-1.5 block text-[10px] uppercase tracking-[.26em] leading-none" style="color: var(--color-muted);">Properties</span>
           </span>
         </a>
 
@@ -24,7 +24,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
           @for (link of links; track link.path) {
             <a [routerLink]="link.path" routerLinkActive="active-link"
                [routerLinkActiveOptions]="{ exact: link.path === '/' }"
-               class="nav-link text-[11px] font-semibold uppercase tracking-[.16em]">
+               class="nav-link text-[12px] font-semibold uppercase tracking-[.13em]">
               {{ link.label }}
             </a>
           }
