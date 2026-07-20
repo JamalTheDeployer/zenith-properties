@@ -9,13 +9,30 @@ import { PropertyService } from '../../core/property.service';
   imports: [RouterLink, RevealDirective],
   template: `
     <!-- Cinematic company opening -->
-    <section class="relative isolate min-h-[100svh] overflow-hidden bg-black pt-[82px] text-white">
-      <div class="absolute inset-x-0 bottom-0 top-[82px] -z-20">
-        <img [src]="latestProject.heroImage" alt="Completed ZenithStay residential interior"
-             class="h-full w-full object-cover" loading="eager" />
+    <section class="brand-film relative isolate min-h-[100svh] overflow-hidden bg-black pt-[82px] text-white"
+             [class.brand-film--paused]="filmPaused">
+      <div class="brand-film__media absolute inset-x-0 bottom-0 top-[82px] -z-30" aria-hidden="true">
+        @for (frame of brandFilmFrames; track frame.src; let i = $index) {
+          <figure class="brand-film__frame" [style.--frame-index]="i">
+            <img [src]="frame.src" alt="" [style.object-position]="frame.position"
+                 [attr.loading]="i === 0 ? 'eager' : 'lazy'"
+                 [attr.fetchpriority]="i === 0 ? 'high' : null" />
+          </figure>
+        }
       </div>
-      <div class="absolute inset-x-0 bottom-0 top-[82px] -z-10"
-           style="background: linear-gradient(90deg, rgba(10,14,12,.9) 0%, rgba(10,14,12,.65) 43%, rgba(10,14,12,.16) 76%), linear-gradient(0deg, rgba(10,14,12,.72), transparent 58%);"></div>
+      <div class="brand-film__veil absolute inset-x-0 bottom-0 top-[82px] -z-20"></div>
+      <div class="brand-film__grain absolute inset-x-0 bottom-0 top-[82px] -z-10" aria-hidden="true"></div>
+
+      <div class="container-wide pointer-events-none absolute inset-x-0 top-[104px] z-20 flex items-center justify-between">
+        <p class="hidden text-[10px] font-semibold uppercase tracking-[.2em] text-white/52 md:block">UK residential investment · Built evidence</p>
+        <button type="button" class="brand-film__motion-control pointer-events-auto inline-flex items-center gap-3 border border-white/25 bg-black/20 px-4 py-3 text-[10px] font-semibold uppercase tracking-[.16em] text-white/72 backdrop-blur-md transition-colors hover:border-white/50 hover:text-white"
+                (click)="toggleFilm()" [attr.aria-pressed]="filmPaused">
+          <span class="brand-film__control-icon" aria-hidden="true">
+            @if (filmPaused) { <span class="brand-film__play">▶</span> } @else { <span class="brand-film__pause">Ⅱ</span> }
+          </span>
+          {{ filmPaused ? 'Play visual sequence' : 'Pause visual sequence' }}
+        </button>
+      </div>
 
       <div class="container-wide flex min-h-[calc(100svh-82px)] items-end py-10 md:py-14">
         <div class="grid w-full gap-10 lg:grid-cols-[1.28fr_.72fr] lg:items-end">
@@ -35,8 +52,16 @@ import { PropertyService } from '../../core/property.service';
             </div>
           </div>
 
-          <aside class="border border-white/25 bg-black/25 p-6 backdrop-blur-md md:p-8" data-reveal [revealDelay]="90">
-            <p class="text-[11px] font-semibold uppercase tracking-[.18em] text-white/58">Operating mandate</p>
+          <aside class="border border-white/25 bg-black/30 p-6 backdrop-blur-md md:p-8" data-reveal [revealDelay]="90">
+            <div class="mb-7 flex items-center justify-between gap-5 border-b border-white/20 pb-5">
+              <p class="text-[11px] font-semibold uppercase tracking-[.18em] text-white/58">Operating mandate</p>
+              <div class="relative h-4 min-w-[126px] overflow-hidden text-right" aria-hidden="true">
+                @for (frame of brandFilmFrames; track frame.label; let i = $index) {
+                  <p class="brand-film__phase absolute inset-0 text-[10px] font-semibold uppercase tracking-[.16em] text-white/68"
+                     [style.--frame-index]="i">0{{ i + 1 }} · {{ frame.label }}</p>
+                }
+              </div>
+            </div>
             <div class="mt-8 space-y-5">
               @for (signal of companySignals; track signal.label) {
                 <div class="grid grid-cols-[92px_1fr] gap-4 border-t border-white/20 pt-4">
@@ -48,6 +73,12 @@ import { PropertyService } from '../../core/property.service';
             <a routerLink="/strategy" class="mt-8 inline-flex text-[11px] font-semibold uppercase tracking-[.16em] text-white">Read our investment approach <span class="ml-3">→</span></a>
           </aside>
         </div>
+      </div>
+
+      <div class="brand-film__timeline pointer-events-none absolute inset-x-0 bottom-0 z-20 grid grid-cols-4" aria-hidden="true">
+        @for (frame of brandFilmFrames; track frame.label; let i = $index) {
+          <span class="brand-film__timeline-segment" [style.--frame-index]="i"></span>
+        }
       </div>
     </section>
 
@@ -201,10 +232,172 @@ import { PropertyService } from '../../core/property.service';
       </div>
     </section>
   `,
+  styles: [`
+    :host {
+      display: block;
+    }
+
+    .brand-film__frame {
+      --frame-duration: 24s;
+      position: absolute;
+      inset: 0;
+      margin: 0;
+      opacity: 0;
+      overflow: hidden;
+      animation: brand-frame var(--frame-duration) ease-in-out infinite both;
+      animation-delay: calc(var(--frame-index) * 6s);
+    }
+
+    .brand-film__frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(.72) contrast(1.04) brightness(.88);
+      transform: scale(1.035);
+      animation: brand-drift 24s cubic-bezier(.2,.55,.25,1) infinite both;
+      animation-delay: calc(var(--frame-index) * 6s);
+      will-change: transform;
+    }
+
+    .brand-film__veil {
+      background:
+        linear-gradient(90deg, rgba(7, 10, 9, .94) 0%, rgba(7, 10, 9, .73) 42%, rgba(7, 10, 9, .22) 78%),
+        linear-gradient(0deg, rgba(7, 10, 9, .82) 0%, rgba(7, 10, 9, .08) 64%),
+        linear-gradient(180deg, rgba(7, 10, 9, .32) 0%, transparent 30%);
+    }
+
+    .brand-film__grain {
+      opacity: .11;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,.28) 0 .5px, transparent .7px),
+        radial-gradient(circle at 70% 65%, rgba(255,255,255,.18) 0 .45px, transparent .7px);
+      background-size: 5px 5px, 7px 7px;
+      mix-blend-mode: soft-light;
+    }
+
+    .brand-film__phase {
+      opacity: 0;
+      animation: brand-phase 24s ease-in-out infinite both;
+      animation-delay: calc(var(--frame-index) * 6s);
+    }
+
+    .brand-film__timeline-segment {
+      position: relative;
+      height: 2px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, .18);
+    }
+
+    .brand-film__timeline-segment::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, .82);
+      transform: translateX(-101%);
+      animation: brand-progress 24s linear infinite both;
+      animation-delay: calc(var(--frame-index) * 6s);
+    }
+
+    .brand-film__control-icon {
+      display: inline-grid;
+      width: 12px;
+      place-items: center;
+      color: rgba(255,255,255,.88);
+    }
+
+    .brand-film__play {
+      font-size: 8px;
+      transform: translateX(1px);
+    }
+
+    .brand-film__pause {
+      font-size: 10px;
+      letter-spacing: -2px;
+      transform: translateX(-1px);
+    }
+
+    .brand-film--paused .brand-film__frame,
+    .brand-film--paused .brand-film__frame img,
+    .brand-film--paused .brand-film__phase,
+    .brand-film--paused .brand-film__timeline-segment::after {
+      animation-play-state: paused;
+    }
+
+    @keyframes brand-frame {
+      0%, 21% { opacity: 1; }
+      27%, 94% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes brand-drift {
+      0% { transform: scale(1.035) translate3d(0, 0, 0); }
+      23% { transform: scale(1.12) translate3d(-1.3%, -1%, 0); }
+      100% { transform: scale(1.12) translate3d(-1.3%, -1%, 0); }
+    }
+
+    @keyframes brand-phase {
+      0%, 20% { opacity: 1; transform: translateY(0); }
+      24% { opacity: 0; transform: translateY(-7px); }
+      25%, 94% { opacity: 0; transform: translateY(7px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes brand-progress {
+      0% { transform: translateX(-101%); }
+      24% { transform: translateX(0); }
+      25%, 100% { transform: translateX(101%); }
+    }
+
+    @media (max-width: 767px) {
+      .brand-film__veil {
+        background:
+          linear-gradient(90deg, rgba(7, 10, 9, .84), rgba(7, 10, 9, .28)),
+          linear-gradient(0deg, rgba(7, 10, 9, .9) 0%, rgba(7, 10, 9, .14) 72%);
+      }
+
+      .brand-film__frame img {
+        filter: saturate(.76) contrast(1.02) brightness(.78);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .brand-film__frame,
+      .brand-film__frame img,
+      .brand-film__phase,
+      .brand-film__timeline-segment::after {
+        animation: none !important;
+      }
+
+      .brand-film__frame:first-child,
+      .brand-film__phase:first-child {
+        opacity: 1;
+      }
+
+      .brand-film__frame:not(:first-child),
+      .brand-film__phase:not(:first-child),
+      .brand-film__timeline,
+      .brand-film__motion-control {
+        display: none;
+      }
+    }
+  `],
 })
 export class HomeComponent {
   private readonly svc = inject(PropertyService);
   readonly latestProject = this.svc.featured();
+
+  filmPaused = false;
+
+  readonly brandFilmFrames = [
+    { src: 'properties/priory-road/clean/kitchen-clean.jpg', position: '58% 48%', label: 'Acquire' },
+    { src: 'properties/priory-road/clean/walnut-door-clean.jpg', position: '52% 50%', label: 'Reconfigure' },
+    { src: 'properties/priory-road/clean/shower-room-wide-clean.jpg', position: '54% 50%', label: 'Deliver' },
+    { src: 'properties/priory-road/clean/staircase-clean.jpg', position: '55% 45%', label: 'Steward' },
+  ];
+
+  toggleFilm(): void {
+    this.filmPaused = !this.filmPaused;
+  }
 
   readonly companySignals = [
     { label: 'Asset class', value: 'Residential' },
