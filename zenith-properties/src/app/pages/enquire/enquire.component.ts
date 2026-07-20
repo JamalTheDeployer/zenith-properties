@@ -1,180 +1,145 @@
-import { Component, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { RevealDirective } from '../../shared/reveal.directive';
-import { PropertyService } from '../../core/property.service';
 
-/**
- * Enquiry flow. The form validates client-side and shows a confirmation.
- *
- * To make it live, point `submit()` at your endpoint of choice — Formspree,
- * a serverless function, or a CRM webhook. The one integration line is marked
- * TODO below; everything else (validation, UX, success state) is done.
- */
 @Component({
   selector: 'app-enquire',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule, RevealDirective],
+  imports: [ReactiveFormsModule, RouterLink, RevealDirective],
   template: `
-    <section class="pt-36 pb-24" style="background: var(--color-canvas);">
-      <div class="container-wide grid gap-14 lg:grid-cols-[0.9fr_1.1fr]">
-        <!-- Intro -->
+    <section class="pb-20 pt-40 md:pb-28 md:pt-48" style="background: var(--color-canvas);">
+      <div class="container-wide grid gap-12 lg:grid-cols-[.55fr_1.45fr]">
+        <div data-reveal>
+          <p class="eyebrow">Contact</p>
+          <p class="mt-5 index-label">Private and direct</p>
+        </div>
         <div>
-          <p class="eyebrow mb-4" data-reveal>Enquiries</p>
-          <h1 class="text-[clamp(2.2rem,4.4vw,3.4rem)] text-balance" data-reveal>Start a conversation.</h1>
-          <p class="mt-5 max-w-md text-[1.08rem]" style="color: var(--color-slate);" data-reveal [revealDelay]="80">
-            Arrange a viewing, ask about a future tenancy, or register interest in the next property.
-            Every enquiry is read and answered personally — usually within two working days.
+          <h1 class="max-w-5xl text-[clamp(4.2rem,8.8vw,8.8rem)]" data-reveal>Let’s discuss<br><em class="font-normal">what comes next.</em></h1>
+          <p class="mt-10 max-w-2xl text-[1.08rem]" style="color: var(--color-slate);" data-reveal [revealDelay]="80">
+            ZenithStay welcomes direct conversations with lenders, investors, agents, vendors and professional partners. Tell us where your interest sits and we will respond personally.
           </p>
+        </div>
+      </div>
+    </section>
 
-          <div class="mt-10 space-y-5">
-            @for (item of assurances; track item.title) {
-              <div class="flex items-start gap-3" data-reveal>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="mt-0.5 shrink-0"><path d="M5 12l5 5L20 7" stroke="#9c6f3d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <div>
-                  <p class="font-medium">{{ item.title }}</p>
-                  <p class="text-[14px]" style="color: var(--color-slate);">{{ item.body }}</p>
-                </div>
-              </div>
-            }
+    <section class="pb-24 md:pb-36" style="background: var(--color-canvas);">
+      <div class="container-wide grid gap-14 lg:grid-cols-[.62fr_1.38fr]">
+        <aside class="border-t pt-6" style="border-color: var(--color-line-strong);" data-reveal>
+          <p class="index-label mb-5">Direct contact</p>
+          <div class="space-y-3">
+            <a href="mailto:admin&#64;zenithstayproperties.co.uk" class="block break-words display-serif text-2xl">admin&#64;zenithstayproperties.co.uk</a>
+            <a href="tel:+447944015213" class="block text-[14px]" style="color: var(--color-slate);">07944 015 213</a>
+            <a href="https://www.instagram.com/Zenithstay/" target="_blank" rel="noopener noreferrer"
+               class="block text-[14px]" style="color: var(--color-slate);">Instagram · &#64;Zenithstay</a>
           </div>
-        </div>
+          <p class="mt-8 max-w-sm text-[13px]" style="color: var(--color-muted);">
+            Information submitted through this page is used only to respond to your enquiry. Please do not include sensitive financial or personal information in an initial message.
+          </p>
+          <div class="mt-12 border-t pt-6" style="border-color: var(--color-line);">
+            <p class="index-label mb-4">Relevant conversations</p>
+            <ul class="space-y-2 text-[14px]" style="color: var(--color-slate);">
+              <li>Lending and development finance</li>
+              <li>Investment and joint ventures</li>
+              <li>Property sourcing and acquisitions</li>
+              <li>Professional and delivery partnerships</li>
+            </ul>
+          </div>
+        </aside>
 
-        <!-- Form / success -->
-        <div class="surface-card p-8 md:p-10" style="border-radius: var(--radius-lg);" data-reveal [revealDelay]="120">
-          @if (!submitted()) {
-            <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="space-y-5">
-              <div class="grid sm:grid-cols-2 gap-5">
-                <label class="block">
-                  <span class="label">Your name</span>
-                  <input class="field" type="text" formControlName="name" autocomplete="name" />
-                  @if (invalid('name')) { <span class="err">Please tell us your name.</span> }
-                </label>
-                <label class="block">
-                  <span class="label">Email</span>
-                  <input class="field" type="email" formControlName="email" autocomplete="email" />
-                  @if (invalid('email')) { <span class="err">A valid email, please.</span> }
-                </label>
-              </div>
+        <form [formGroup]="form" (ngSubmit)="submit()" class="border-t" style="border-color: var(--color-ink);" novalidate data-reveal [revealDelay]="80">
+          <div class="grid md:grid-cols-2">
+            <label class="field-wrap md:border-r">
+              <span class="label">Name</span>
+              <input class="field" type="text" formControlName="name" autocomplete="name" placeholder="Your full name" />
+              @if (invalid('name')) { <span class="error">Please enter your name.</span> }
+            </label>
+            <label class="field-wrap">
+              <span class="label">Email</span>
+              <input class="field" type="email" formControlName="email" autocomplete="email" placeholder="you&#64;company.com" />
+              @if (invalid('email')) { <span class="error">Please enter a valid email.</span> }
+            </label>
+          </div>
+          <div class="grid md:grid-cols-2">
+            <label class="field-wrap md:border-r">
+              <span class="label">Organisation <span style="color: var(--color-muted);">(optional)</span></span>
+              <input class="field" type="text" formControlName="organisation" autocomplete="organization" placeholder="Company or organisation" />
+            </label>
+            <label class="field-wrap">
+              <span class="label">Area of interest</span>
+              <select class="field" formControlName="interest">
+                <option value="Lending and finance">Lending and finance</option>
+                <option value="Investment partnership">Investment partnership</option>
+                <option value="Property opportunity">Property opportunity</option>
+                <option value="Professional partnership">Professional partnership</option>
+                <option value="General enquiry">General enquiry</option>
+              </select>
+            </label>
+          </div>
+          <label class="field-wrap block">
+            <span class="label">Message</span>
+            <textarea class="field min-h-[180px] resize-y" formControlName="message" placeholder="A short introduction and the reason for getting in touch"></textarea>
+            @if (invalid('message')) { <span class="error">Please include a short message.</span> }
+          </label>
+          <div class="flex flex-col gap-5 border-b py-6 sm:flex-row sm:items-center sm:justify-between" style="border-color: var(--color-line-strong);">
+            <label class="flex max-w-xl items-start gap-3 text-[12px]" style="color: var(--color-muted);">
+              <input type="checkbox" formControlName="consent" class="mt-1 h-4 w-4 accent-[color:var(--color-ink)]" />
+              <span>I consent to ZenithStay Properties Limited using these details to respond to this enquiry.</span>
+            </label>
+            <button type="submit" class="btn btn-primary shrink-0">Prepare email</button>
+          </div>
+          @if (invalid('consent')) { <p class="error mt-3">Please confirm consent before continuing.</p> }
+          <p class="mt-4 text-[11px]" style="color: var(--color-muted);">Submitting opens your email application with the message prepared for review before sending.</p>
+        </form>
+      </div>
+    </section>
 
-              <div class="grid sm:grid-cols-2 gap-5">
-                <label class="block">
-                  <span class="label">Phone <em class="opt">(optional)</em></span>
-                  <input class="field" type="tel" formControlName="phone" autocomplete="tel" />
-                </label>
-                <label class="block">
-                  <span class="label">I'm enquiring about</span>
-                  <select class="field" formControlName="enquiryType">
-                    <option value="Viewing">A viewing</option>
-                    <option value="Tenancy">A future tenancy</option>
-                    <option value="General">A general enquiry</option>
-                    <option value="Press">Press / partnerships</option>
-                  </select>
-                </label>
-              </div>
-
-              <label class="block">
-                <span class="label">Property of interest</span>
-                <select class="field" formControlName="property">
-                  <option value="Any / the portfolio">Any / the portfolio</option>
-                  @for (p of properties; track p.id) {
-                    <option [value]="p.name">{{ p.name }} ({{ p.ref }})</option>
-                  }
-                </select>
-              </label>
-
-              <label class="block">
-                <span class="label">Message</span>
-                <textarea class="field min-h-[130px] resize-y" formControlName="message"
-                          placeholder="Tell us a little about what you're looking for."></textarea>
-                @if (invalid('message')) { <span class="err">A short message helps us reply well.</span> }
-              </label>
-
-              <label class="flex items-start gap-3 cursor-pointer">
-                <input type="checkbox" formControlName="consent" class="mt-1 h-4 w-4 accent-[color:var(--color-oak)]" />
-                <span class="text-[13.5px]" style="color: var(--color-slate);">
-                  I'm happy for Zenith Properties to contact me about this enquiry. My details are never shared.
-                </span>
-              </label>
-              @if (invalid('consent')) { <span class="err block">Please tick to continue.</span> }
-
-              <button type="submit" class="btn btn-primary w-full">Send enquiry</button>
-              <p class="text-[12.5px] text-center" style="color: var(--color-muted);">
-                Demo form — no data leaves your browser yet. Connect an endpoint to go live.
-              </p>
-            </form>
-          } @else {
-            <div class="text-center py-10">
-              <span class="inline-flex h-16 w-16 items-center justify-center rounded-full mb-6" style="background: var(--color-sage-soft);">
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="#5b6b52" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </span>
-              <h2 class="text-3xl mb-3">Thank you, {{ sentName() }}.</h2>
-              <p class="max-w-sm mx-auto" style="color: var(--color-slate);">
-                Your enquiry is noted. In the live site this would reach us by email and CRM — we'd reply
-                personally within two working days.
-              </p>
-              <div class="mt-8 flex flex-wrap justify-center gap-3">
-                <a [href]="mailtoLink()" class="btn btn-oak">Also send by email</a>
-                <a routerLink="/portfolio" class="btn btn-ghost">Back to portfolio</a>
-              </div>
-            </div>
-          }
-        </div>
+    <section class="py-20 md:py-28" style="background: var(--color-mist);">
+      <div class="container-wide grid gap-10 md:grid-cols-2 md:items-center">
+        <div data-reveal><p class="eyebrow mb-5">Before you write</p><h2 class="text-[clamp(3rem,5vw,5rem)]">Looking for the project record?</h2></div>
+        <div data-reveal [revealDelay]="70"><p class="max-w-lg" style="color: var(--color-slate);">Our project case studies document the delivery standard behind ZenithStay’s growing residential portfolio.</p><a routerLink="/portfolio" class="btn btn-ghost mt-7">View projects</a></div>
       </div>
     </section>
   `,
   styles: [`
-    .label { display:block; font-size:0.82rem; font-weight:500; margin-bottom:0.4rem; color: var(--color-slate); }
-    .label .opt { font-style: normal; color: var(--color-muted); font-weight:400; }
-    .field {
-      width:100%; font-family: var(--font-body); font-size:1rem; color: var(--color-ink);
-      background: var(--color-canvas); border:1px solid var(--color-line-strong);
-      border-radius: 12px; padding: 0.75rem 0.85rem; transition: border-color .2s, box-shadow .2s;
-    }
-    .field:focus { outline:none; border-color: var(--color-oak); box-shadow: 0 0 0 3px rgba(185,138,84,0.15); }
-    .err { display:block; margin-top:0.35rem; font-size:0.8rem; color:#a3502f; }
+    .field-wrap { display: block; padding: 1.45rem 0; border-bottom: 1px solid var(--color-line-strong); }
+    @media (min-width: 768px) { .field-wrap { padding: 1.45rem; } }
+    .label { display: block; margin-bottom: .55rem; color: var(--color-muted); font-size: .66rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+    .field { width: 100%; border: 0; outline: 0; background: transparent; color: var(--color-ink); font: 400 1rem var(--font-body); }
+    .field::placeholder { color: #9a9e98; }
+    .error { display: block; margin-top: .45rem; color: #8c3f2d; font-size: .72rem; }
   `],
 })
 export class EnquireComponent {
   private readonly fb = inject(FormBuilder);
-  private readonly svc = inject(PropertyService);
-  readonly properties = this.svc.showcased();
-
-  readonly submitted = signal(false);
-  readonly sentName = signal('');
+  private readonly route = inject(ActivatedRoute);
+  private readonly acceptedInterests = new Set([
+    'Lending and finance',
+    'Investment partnership',
+    'Property opportunity',
+    'Professional partnership',
+    'General enquiry',
+  ]);
 
   readonly form = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
-    phone: [''],
-    enquiryType: ['Viewing', Validators.required],
-    property: ['Any / the portfolio', Validators.required],
+    organisation: [''],
+    interest: ['Lending and finance', Validators.required],
     message: ['', [Validators.required, Validators.minLength(10)]],
     consent: [false, Validators.requiredTrue],
   });
 
-  readonly assurances = [
-    { title: 'Answered personally', body: 'No call centres, no chatbots — a real reply from the team.' },
-    { title: 'Private by default', body: 'Your details stay with us and are never sold or shared.' },
-    { title: 'No pressure', body: "If it isn't the right fit, we'll say so kindly and quickly." },
-  ];
-
-  invalid(control: string): boolean {
-    const c = this.form.get(control);
-    return !!c && c.invalid && (c.touched || c.dirty);
+  constructor() {
+    const interest = this.route.snapshot.queryParamMap.get('interest');
+    if (interest && this.acceptedInterests.has(interest)) {
+      this.form.controls.interest.setValue(interest);
+    }
   }
 
-  mailtoLink(): string {
-    const v = this.form.getRawValue();
-    const subject = encodeURIComponent(`Enquiry (${v.enquiryType}) — ${v.property}`);
-    const body = encodeURIComponent(
-      `Name: ${v.name}\nEmail: ${v.email}\nPhone: ${v.phone || '—'}\nInterest: ${v.enquiryType}\nProperty: ${v.property}\n\n${v.message}`,
-    );
-    return `mailto:hello@zenithproperties.co.uk?subject=${subject}&body=${body}`;
+  invalid(control: string): boolean {
+    const value = this.form.get(control);
+    return !!value && value.invalid && (value.touched || value.dirty);
   }
 
   submit(): void {
@@ -182,9 +147,13 @@ export class EnquireComponent {
       this.form.markAllAsTouched();
       return;
     }
-    // TODO: POST this.form.getRawValue() to your endpoint (Formspree / API / CRM).
-    this.sentName.set(this.form.getRawValue().name ?? '');
-    this.submitted.set(true);
-    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
+    const value = this.form.getRawValue();
+    const subject = encodeURIComponent(`${value.interest} — ${value.name}`);
+    const body = encodeURIComponent(
+      `Name: ${value.name}\nEmail: ${value.email}\nOrganisation: ${value.organisation || '—'}\nInterest: ${value.interest}\n\n${value.message}`,
+    );
+    if (typeof window !== 'undefined') {
+      window.location.href = `mailto:admin@zenithstayproperties.co.uk?subject=${subject}&body=${body}`;
+    }
   }
 }

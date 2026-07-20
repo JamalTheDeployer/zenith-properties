@@ -6,64 +6,44 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [RouterLink],
   template: `
-    <footer class="mt-24" style="background: var(--color-ink); color: var(--color-canvas);">
-      <div class="container-wide py-20">
-        <div class="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
-          <!-- Brand -->
+    <footer style="background: var(--color-ink); color: var(--color-canvas);">
+      <div class="container-wide py-16 md:py-24">
+        <div class="grid gap-14 border-b pb-16 md:grid-cols-[1.5fr_.7fr_.7fr]" style="border-color: rgba(244,241,234,.16);">
           <div>
-            <div class="flex items-center gap-2.5 mb-4">
-              <span class="inline-flex h-8 w-8 items-center justify-center rounded-full" style="background: rgba(251,250,247,0.12);">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M12 2 3 9v13h6v-7h6v7h6V9z" stroke="#fbfaf7" stroke-width="1.6" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              <span class="text-[15px] font-semibold tracking-[0.14em] uppercase">Zenith Properties</span>
-            </div>
-            <p class="text-[15px] max-w-xs" style="color: rgba(251,250,247,0.62);">
-              A growing portfolio of thoughtfully renovated homes. Held for the long term, cared for in detail.
-            </p>
+            <p class="eyebrow mb-5" style="color: var(--color-oak-soft);">A considered next move</p>
+            <h2 class="max-w-2xl text-[clamp(2.7rem,5vw,5rem)]" style="color: var(--color-canvas);">
+              Property partnerships begin with a conversation.
+            </h2>
+            <a routerLink="/enquire" class="btn btn-oak mt-9">Talk to ZenithStay</a>
           </div>
-
-          <!-- Explore -->
-          <nav aria-label="Footer — explore">
-            <h4 class="text-[12px] uppercase tracking-[0.2em] mb-4" style="color: var(--color-oak-soft); font-family: var(--font-body); font-weight:600;">Explore</h4>
-            <ul class="space-y-2.5 text-[15px]" style="color: rgba(251,250,247,0.72);">
-              <li><a routerLink="/portfolio" class="hover:opacity-100 opacity-90 transition-opacity">Portfolio</a></li>
-              <li><a routerLink="/property/juniper-house" class="hover:opacity-100 opacity-90 transition-opacity">The Residence</a></li>
-              <li><a routerLink="/sustainability" class="hover:opacity-100 opacity-90 transition-opacity">Sustainability</a></li>
+          <nav aria-label="Footer navigation">
+            <p class="index-label mb-5" style="color: rgba(244,241,234,.5);">Navigate</p>
+            <ul class="space-y-3 text-[14px]" style="color: rgba(244,241,234,.76);">
+              <li><a routerLink="/portfolio">Projects</a></li>
+              <li><a routerLink="/strategy">Investment approach</a></li>
+              <li><a routerLink="/about">About ZenithStay</a></li>
             </ul>
           </nav>
-
-          <!-- Access -->
-          <nav aria-label="Footer — access">
-            <h4 class="text-[12px] uppercase tracking-[0.2em] mb-4" style="color: var(--color-oak-soft); font-family: var(--font-body); font-weight:600;">Access</h4>
-            <ul class="space-y-2.5 text-[15px]" style="color: rgba(251,250,247,0.72);">
-              <li><a routerLink="/enquire" class="hover:opacity-100 opacity-90 transition-opacity">Make an enquiry</a></li>
-              <li><a routerLink="/portal" class="hover:opacity-100 opacity-90 transition-opacity">Tenant portal</a></li>
-              <li><a href="mailto:hello&#64;zenithproperties.co.uk" class="hover:opacity-100 opacity-90 transition-opacity">hello&#64;zenithproperties.co.uk</a></li>
-            </ul>
-          </nav>
-
-          <!-- Contact -->
           <div>
-            <h4 class="text-[12px] uppercase tracking-[0.2em] mb-4" style="color: var(--color-oak-soft); font-family: var(--font-body); font-weight:600;">Get in touch</h4>
-            <p class="text-[15px] mb-4" style="color: rgba(251,250,247,0.72);">
-              For viewings, enquiries, or to discuss the portfolio — we reply personally.
+            <p class="index-label mb-5" style="color: rgba(244,241,234,.5);">Contact</p>
+            <div class="space-y-3 text-[14px]" style="color: rgba(244,241,234,.76);">
+              <a href="mailto:admin&#64;zenithstayproperties.co.uk" class="block break-words">admin&#64;zenithstayproperties.co.uk</a>
+              <a href="tel:+447944015213" class="block">07944 015 213</a>
+              <a href="https://www.instagram.com/Zenithstay/" target="_blank" rel="noopener noreferrer" class="block">Instagram · &#64;Zenithstay</a>
+            </div>
+            <p class="mt-5 max-w-xs text-[13px]" style="color: rgba(244,241,234,.45);">
+              For lending, investment, acquisitions and professional partnerships.
             </p>
-            <a routerLink="/enquire" class="btn btn-oak">Start an enquiry</a>
           </div>
         </div>
-
-        <hr class="my-10" style="border:0;border-top:1px solid rgba(251,250,247,0.12);" />
-
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-[13px]" style="color: rgba(251,250,247,0.5);">
-          <p>© {{ year }} Zenith Properties. All rights reserved.</p>
-          <p>Every enquiry is handled privately and with care.</p>
+        <div class="flex flex-col gap-3 pt-7 text-[11px] uppercase tracking-[.14em] sm:flex-row sm:items-center sm:justify-between" style="color: rgba(244,241,234,.42);">
+          <p>© {{ year }} ZenithStay Properties Limited</p>
+          <p>Independent property investment · United Kingdom</p>
         </div>
       </div>
     </footer>
   `,
 })
 export class SiteFooterComponent {
-  readonly year = 2026;
+  readonly year = new Date().getFullYear();
 }

@@ -1,109 +1,74 @@
 import { Property } from './property.model';
 
 /**
- * THE PORTFOLIO.
- *
- * ── To add a future property ──────────────────────────────────────────────
- *   1. Drop its photos in  public/properties/<slug>/
- *   2. Copy the object below, change the fields, list its rooms.
- *   3. That's it — it appears on the home page, the portfolio grid and gets
- *      its own /property/<slug> page automatically.
- *
- * ── Placeholders to edit ──────────────────────────────────────────────────
- *   Text marked  (edit)  is a sensible placeholder for the real details of
- *   the client's first home — swap in the true location, area, EPC, etc.
+ * The project portfolio. Each completed acquisition is a self-contained case
+ * study with its own name, evidence and imagery. Financial metrics should only
+ * be added once they have been confirmed for publication.
  */
 export const PROPERTIES: Property[] = [
   {
-    id: 'juniper-house',
-    slug: 'juniper-house',
-    name: 'Juniper House',
+    id: 'priory-road',
+    slug: 'priory-road',
+    name: 'Priory Road',
     ref: 'ZP-01',
     status: 'portfolio',
     location: {
-      area: 'Greater London', // (edit) neighbourhood
-      city: 'London',         // (edit)
+      area: 'Greater London',
+      city: 'London',
       country: 'United Kingdom',
     },
-    headline: 'The first of many.',
+    headline: 'From two bedrooms to four.',
     standfirst:
-      'A fully reimagined Victorian terrace — warm oak underfoot, onyx-marble bathrooms, and light in every room. The founding residence of the Zenith portfolio.',
+      'A two-bedroom house reconfigured and comprehensively improved into a four-bedroom home.',
     story: [
-      'Juniper House marks the beginning of the Zenith Properties portfolio — the first home acquired, stripped back and rebuilt to a standard we intend to repeat with every property that follows.',
-      'Every surface was considered: full-height onyx-effect porcelain in the bath and shower rooms, hand-finished walnut internal doors, engineered oak floors, and a bright, contemporary kitchen with integrated appliances and quartz-marble worktops.',
-      'It is a home first and an investment second — proof that careful renovation and long-term ownership can sit comfortably together.',
+      'Priory Road is the founding project in the ZenithStay Properties portfolio: an existing two-bedroom house reconsidered as a more capable four-bedroom home.',
+      'The value case went beyond finishes. The plan was reworked to create two additional bedrooms, while the wider refurbishment brought a coherent material language, durable specification and considered lighting to every floor. It is the first proof of ZenithStay’s model: recognise underused potential, resolve the configuration and deliver an asset whose improvement is clear in both utility and finish.',
     ],
-    heroImage: 'properties/juniper-house/kitchen.jpg',
+    heroImage: 'properties/priory-road/clean/kitchen-clean.jpg',
     specs: {
-      bedrooms: 3,
+      originalBedrooms: 2,
+      bedrooms: 4,
       bathrooms: 3,
       receptions: 1,
-      areaSqft: 1080,       // (edit)
-      areaSqm: 100,         // (edit)
-      epcRating: 'C',       // (edit)
-      councilTaxBand: 'D',  // (edit)
-      tenure: 'Freehold',   // (edit)
+      areaSqft: 1080,
+      areaSqm: 100,
+      epcRating: 'C',
+      councilTaxBand: 'D',
+      tenure: 'Freehold',
       yearRenovated: 2026,
     },
     features: [
-      'Full renovation, completed 2026',
-      'Onyx-effect porcelain bath & shower rooms',
+      'Reconfiguration from two bedrooms to four',
+      'Comprehensive residential refurbishment',
       'Contemporary kitchen with integrated appliances',
       'Engineered oak flooring throughout',
-      'Solid walnut internal doors',
-      'Black matte ironmongery & heated towel rails',
+      'Solid walnut internal doors and considered joinery',
+      'Stone-led bath and shower rooms',
+      'Black architectural ironmongery',
       'Double-glazed sash-style windows',
-      'Private landing with feature balustrade',
+      'Flexible fourth bedroom and additional storage provision',
     ],
     rooms: [
-      { name: 'Kitchen', floor: 'Ground floor', image: 'properties/juniper-house/kitchen.jpg', caption: 'Contemporary kitchen with quartz-marble worktops, marble-effect splashback and integrated appliances.' },
-      { name: 'Principal Bedroom', floor: 'First floor', image: 'properties/juniper-house/principal-bedroom.jpg', caption: 'A bright dual-aspect principal bedroom overlooking the street.' },
-      { name: 'Shower Room', floor: 'First floor', image: 'properties/juniper-house/shower-room.jpg', caption: 'Onyx-effect porcelain walls, black-framed enclosure and heated towel rail.' },
-      { name: 'En-suite', floor: 'First floor', image: 'properties/juniper-house/ensuite.jpg', caption: 'A crisp en-suite off the landing, finished in marble-effect stone.' },
-      { name: 'Bedroom Two', floor: 'First floor', image: 'properties/juniper-house/bedroom-two.jpg', caption: 'A calm second bedroom with garden views and soft neutral tones.' },
-      { name: 'Bedroom Three', floor: 'First floor', image: 'properties/juniper-house/bedroom-three.jpg', caption: 'A well-proportioned third bedroom filled with natural light.' },
-      { name: 'Study', floor: 'First floor', image: 'properties/juniper-house/study.jpg', caption: 'A flexible study or nursery with a feature pendant.' },
-      { name: 'Cloakroom', floor: 'Ground floor', image: 'properties/juniper-house/cloakroom.jpg', caption: 'A guest cloakroom with an oak-framed mirror and marble half-wall.' },
-      { name: 'Landing', floor: 'First floor', image: 'properties/juniper-house/landing.jpg', caption: 'A generous landing with a painted timber balustrade.' },
-      { name: 'Walnut Detailing', floor: 'Ground floor', image: 'properties/juniper-house/walnut-door.jpg', caption: 'Solid walnut doors with slim glazed panels connecting the living spaces.' },
-      { name: 'Box Room', floor: 'First floor', image: 'properties/juniper-house/box-room.jpg', caption: 'A versatile box room — dressing room, home office or storage.' },
+      { name: 'Kitchen', floor: 'Ground floor', image: 'properties/priory-road/clean/kitchen-clean.jpg', caption: 'A contemporary kitchen built around durable surfaces, integrated appliances and a restrained material palette.' },
+      { name: 'Principal bedroom', floor: 'First floor', image: 'properties/priory-road/clean/principal-bedroom-clean.jpg', caption: 'A light-filled principal room with a calm, neutral finish.' },
+      { name: 'Shower room', floor: 'First floor', image: 'properties/priory-road/clean/shower-room-wide-clean.jpg', caption: 'Stone-led finishes, a black-framed enclosure and precise detailing.' },
+      { name: 'Shower room detail', floor: 'First floor', image: 'properties/priory-road/clean/shower-room-clean.jpg', caption: 'A close study of the marble-effect surfaces, black fittings and warm timber floor.' },
+      { name: 'Bedroom two', floor: 'First floor', image: 'properties/priory-road/clean/bedroom-two-clean.jpg', caption: 'A well-proportioned second bedroom overlooking the garden.' },
+      { name: 'Bedroom three', floor: 'First floor', image: 'properties/priory-road/clean/bedroom-three-clean.jpg', caption: 'A flexible third bedroom with strong natural light.' },
+      { name: 'Bedroom four', floor: 'First floor', image: 'properties/priory-road/study.jpg', caption: 'A fourth bedroom created through the revised residential layout.' },
+      { name: 'Landing', floor: 'First floor', image: 'properties/priory-road/clean/landing-clean.jpg', caption: 'A generous landing with a restored timber balustrade and a clear view into the completed shower room.' },
+      { name: 'Walnut detailing', floor: 'Ground floor', image: 'properties/priory-road/clean/walnut-door-clean.jpg', caption: 'Walnut doors create continuity between the principal living spaces.' },
+      { name: 'Staircase', floor: 'Ground to first floor', image: 'properties/priory-road/clean/staircase-clean.jpg', caption: 'A fully renewed staircase with soft grey carpet, warm timber detailing and considered lighting.' },
     ],
     sustainability: [
-      { icon: 'thermometer', title: 'Efficient heating', detail: 'Modern condensing system with thermostatic radiator valves throughout for zone-by-zone control.' },
-      { icon: 'bolt', title: 'Low-energy lighting', detail: 'Full LED lighting scheme, cutting lighting energy use by roughly 80% versus halogen.' },
-      { icon: 'thermometer', title: 'Improved insulation', detail: 'Upgraded loft and cavity insulation retaining heat and lowering running costs.' },
-      { icon: 'droplet', title: 'Water-conscious fittings', detail: 'Dual-flush WCs and flow-restricted taps and showers reduce mains water demand.' },
-      { icon: 'recycle', title: 'Renovated, not rebuilt', detail: 'Restoring the existing structure avoided the embodied carbon of new construction.' },
-      { icon: 'leaf', title: 'Roadmap to net-positive', detail: 'Future-ready for solar PV, battery storage and an air-source heat pump. (edit as installed)' },
+      { icon: 'thermometer', title: 'Efficient heating', detail: 'A modern condensing system with thermostatic radiator valves supports room-by-room control.' },
+      { icon: 'bolt', title: 'Low-energy lighting', detail: 'LED lighting was specified throughout the completed scheme.' },
+      { icon: 'thermometer', title: 'Improved insulation', detail: 'Upgrades to the building fabric help retain heat and reduce unnecessary demand.' },
+      { icon: 'droplet', title: 'Water-conscious fittings', detail: 'Dual-flush WCs and flow-conscious fittings reduce mains water demand.' },
+      { icon: 'recycle', title: 'Reworked, not replaced', detail: 'Retaining the existing structure avoided the material impact of wholesale redevelopment.' },
     ],
-    // future-ready: capture equirectangular 360° panoramas and add their paths.
-    panoramas: [
-      { room: 'Kitchen', url: '' },
-      { room: 'Principal Bedroom', url: '' },
-      { room: 'Shower Room', url: '' },
-    ],
-    coordinates: undefined, // (edit) e.g. { lat: 51.5074, lng: -0.1278 }
-    guidePrice: undefined,  // portfolio piece — no price shown
-  },
-
-  // ── Next acquisition placeholder ─────────────────────────────────────────
-  // A quiet "coming soon" tile keeps the portfolio feeling alive. Replace the
-  // whole object with the real property when it completes.
-  {
-    id: 'acquisition-02',
-    slug: 'acquisition-02',
-    name: 'Acquisition 02',
-    ref: 'ZP-02',
-    status: 'coming-soon',
-    location: { area: 'To be announced', city: '', country: 'United Kingdom' },
-    headline: 'The search continues.',
-    standfirst: 'The second property in the Zenith portfolio is being sourced. Register to be told first.',
-    story: [],
-    heroImage: '',
-    specs: { bedrooms: 0, bathrooms: 0, receptions: 0 },
-    features: [],
-    rooms: [],
-    sustainability: [],
     panoramas: [],
+    coordinates: undefined,
+    guidePrice: undefined,
   },
 ];
