@@ -1,0 +1,91 @@
+/**
+ * Zenith Properties — domain model.
+ *
+ * The whole site is data-driven from `properties.data.ts`. Adding a future
+ * acquisition to the portfolio = append one `Property` object there. Every
+ * page (home, portfolio grid, detail) reads from this shape, so nothing else
+ * needs to change.
+ *
+ * Fields marked "future-ready" are intentionally present but may be empty for
+ * now — they wire up features (360 tours, tenancy, map) without a refactor.
+ */
+
+export type PropertyStatus =
+  | 'portfolio'    // owned & showcased, not for sale
+  | 'available'    // open to enquiries / for sale
+  | 'let'          // tenanted
+  | 'coming-soon'; // acquisition in progress / placeholder
+
+export interface RoomImage {
+  /** Human room label, shown as a caption. Editable — reorder freely. */
+  name: string;
+  /** Path under /public, e.g. properties/juniper-house/kitchen.jpg */
+  image: string;
+  /** Short descriptive caption for the gallery + alt text. */
+  caption: string;
+  /** Optional grouping, e.g. 'Ground floor' | 'First floor'. */
+  floor?: string;
+}
+
+export interface SustainabilityItem {
+  title: string;
+  detail: string;
+  /** Inline SVG key rendered by the sustainability card (see component). */
+  icon: 'leaf' | 'bolt' | 'droplet' | 'thermometer' | 'recycle' | 'sun';
+}
+
+export interface Panorama360 {
+  /** Which room this 360° panorama represents. */
+  room: string;
+  /** Equirectangular image path once captured. Empty = not yet available. */
+  url: string;
+}
+
+export interface PropertySpecs {
+  bedrooms: number;
+  bathrooms: number;
+  receptions: number;
+  /** Internal floor area. */
+  areaSqft?: number;
+  areaSqm?: number;
+  epcRating?: string;        // e.g. 'B', 'C'
+  councilTaxBand?: string;   // e.g. 'D'
+  tenure?: string;           // e.g. 'Freehold'
+  yearRenovated?: number;
+}
+
+export interface Property {
+  id: string;
+  slug: string;
+  /** Display name of the residence, e.g. "Juniper House". */
+  name: string;
+  /** Portfolio reference, e.g. "ZP-01". */
+  ref: string;
+  status: PropertyStatus;
+
+  location: {
+    area: string;    // neighbourhood / district
+    city: string;
+    country: string;
+  };
+
+  /** One-line hero headline. */
+  headline: string;
+  /** Short standfirst under the headline. */
+  standfirst: string;
+  /** Longer narrative — array of paragraphs. */
+  story: string[];
+
+  heroImage: string;
+  specs: PropertySpecs;
+  features: string[];
+  rooms: RoomImage[];
+  sustainability: SustainabilityItem[];
+
+  /** future-ready — populate when panoramas are shot. */
+  panoramas: Panorama360[];
+  /** future-ready — for a portfolio map. */
+  coordinates?: { lat: number; lng: number };
+  /** Optional guide price; hidden in the UI unless set. */
+  guidePrice?: string;
+}
