@@ -1,263 +1,170 @@
-import {
-  Component,
-  computed,
-  inject,
-  input,
-  signal,
-} from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { RevealDirective } from '../../shared/reveal.directive';
-import { GalleryOrbitComponent } from '../../three/gallery-orbit.component';
 import { PropertyService } from '../../core/property.service';
-import { SustainabilityItem } from '../../core/property.model';
 
 @Component({
   selector: 'app-property-detail',
   standalone: true,
-  imports: [RouterLink, RevealDirective, GalleryOrbitComponent],
+  imports: [RouterLink, RevealDirective],
   template: `
     @if (property(); as p) {
-      <!-- ============ HERO ============ -->
-      <section class="relative min-h-[86vh] flex items-end overflow-hidden">
-        <img [src]="p.heroImage" alt="{{ p.name }}"
-             class="absolute inset-0 w-full h-full object-cover" />
-        <div class="absolute inset-0"
-             style="background: linear-gradient(180deg, rgba(20,22,18,0.15) 0%, rgba(20,22,18,0.05) 40%, rgba(20,22,18,0.78) 100%);"></div>
-        <div class="container-wide relative pb-14 pt-40 text-white w-full">
-          <p class="text-[12px] uppercase tracking-[0.24em] mb-4" style="color: rgba(255,255,255,0.8);">
-            {{ p.ref }} · {{ statusLabel(p.status) }}
-          </p>
-          <h1 class="text-[clamp(2.6rem,7vw,5.2rem)] leading-[0.98] text-balance" style="color: var(--color-canvas);">{{ p.name }}</h1>
-          <p class="mt-3 text-[1.05rem] uppercase tracking-[0.16em]" style="color: rgba(255,255,255,0.82);">
-            {{ p.location.area }}, {{ p.location.country }}
-          </p>
-
-          <div class="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
-            <div class="flex items-center gap-8">
-              <div>
-                <p class="display-serif text-3xl">{{ p.specs.bedrooms }}</p>
-                <p class="text-[12px] uppercase tracking-widest" style="color: rgba(255,255,255,0.7);">Bedrooms</p>
-              </div>
-              <div>
-                <p class="display-serif text-3xl">{{ p.specs.bathrooms }}</p>
-                <p class="text-[12px] uppercase tracking-widest" style="color: rgba(255,255,255,0.7);">Bath / shower</p>
-              </div>
-              <div>
-                <p class="display-serif text-3xl">{{ p.specs.receptions }}</p>
-                <p class="text-[12px] uppercase tracking-widest" style="color: rgba(255,255,255,0.7);">Reception</p>
-              </div>
-              @if (p.specs.areaSqm) {
-                <div>
-                  <p class="display-serif text-3xl">{{ p.specs.areaSqm }}</p>
-                  <p class="text-[12px] uppercase tracking-widest" style="color: rgba(255,255,255,0.7);">m² approx.</p>
-                </div>
-              }
+      <section class="relative min-h-[92svh] overflow-hidden pt-[82px]">
+        <img [src]="p.heroImage" [alt]="p.name + ' completed interior'" class="absolute inset-0 h-full w-full object-cover" />
+        <div class="absolute inset-0" style="background: linear-gradient(180deg, rgba(16,22,18,.08), rgba(16,22,18,.76));"></div>
+        <div class="container-wide relative flex min-h-[calc(92svh-82px)] items-end pb-12 md:pb-16">
+          <div class="w-full text-white">
+            <div class="mb-7 flex flex-wrap items-center justify-between gap-4 border-b pb-5" style="border-color: rgba(255,255,255,.28);">
+              <p class="text-[10px] font-semibold uppercase tracking-[.24em] text-white/68">{{ p.ref }} · Completed project</p>
+              <p class="text-[10px] font-semibold uppercase tracking-[.24em] text-white/68">{{ p.location.area }} · {{ p.specs.yearRenovated }}</p>
             </div>
-            <a routerLink="/enquire" class="btn btn-oak ml-auto">Arrange a viewing</a>
+            <h1 class="text-[clamp(4.5rem,10vw,10rem)] leading-[.8]" style="color: white;">{{ p.name }}</h1>
+            <div class="mt-9 grid gap-8 border-t border-white/25 pt-6 md:grid-cols-[1fr_auto] md:items-end">
+              <p class="max-w-2xl text-[1.05rem] leading-relaxed text-white/70">{{ p.standfirst }}</p>
+              <div class="flex items-baseline gap-4 md:justify-end">
+                <p class="display-serif text-[clamp(4.5rem,8vw,7.8rem)] leading-none text-white">2<span class="mx-3 text-[.38em] text-white/55">→</span>4</p>
+                <p class="pb-2 text-[9px] font-semibold uppercase tracking-[.22em] text-white/55">Bedrooms</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- ============ STORY + SPECS ============ -->
-      <section class="py-24" style="background: var(--color-canvas);">
-        <div class="container-wide grid gap-14 lg:grid-cols-[1.3fr_0.7fr]">
+      <!-- Case-study introduction -->
+      <section class="py-24 md:py-36" style="background: var(--color-canvas);">
+        <div class="container-wide grid gap-14 lg:grid-cols-[.55fr_1.45fr]">
+          <div data-reveal>
+            <p class="eyebrow">Case study</p>
+            <p class="mt-5 index-label">Project 01 / {{ p.ref }}</p>
+          </div>
           <div>
-            <p class="eyebrow mb-4" data-reveal>The residence</p>
-            <h2 class="text-[clamp(1.8rem,3.2vw,2.6rem)] max-w-2xl text-balance" data-reveal>{{ p.standfirst }}</h2>
-            <div class="mt-8 space-y-5 max-w-2xl text-[1.06rem]" style="color: var(--color-slate);">
-              @for (para of p.story; track $index) {
-                <p data-reveal [revealDelay]="$index * 60">{{ para }}</p>
+            <h2 class="max-w-5xl text-[clamp(3.2rem,6.5vw,6.7rem)]" data-reveal>{{ p.headline }}</h2>
+            <div class="mt-12 grid gap-8 border-t pt-8 md:grid-cols-2" style="border-color: var(--color-line);">
+              @for (paragraph of p.story; track $index) {
+                <p class="text-[1rem]" style="color: var(--color-slate);" data-reveal [revealDelay]="$index * 60">{{ paragraph }}</p>
               }
             </div>
           </div>
-
-          <aside class="surface-card p-8 h-fit lg:sticky lg:top-28" style="border-radius: var(--radius-lg);" data-reveal [revealDelay]="120">
-            <h3 class="text-[12px] uppercase tracking-[0.2em] mb-5" style="color: var(--color-muted); font-family: var(--font-body); font-weight:600;">Key facts</h3>
-            <dl class="divide-y" style="border-color: var(--color-line);">
-              @for (fact of facts(); track fact.label) {
-                <div class="flex justify-between py-3 text-[15px]">
-                  <dt style="color: var(--color-slate);">{{ fact.label }}</dt>
-                  <dd class="font-medium">{{ fact.value }}</dd>
-                </div>
-              }
-            </dl>
-          </aside>
         </div>
       </section>
 
-      <!-- ============ 3D GALLERY ORBIT ============ -->
-      @if (p.rooms.length) {
-        <section class="py-24" style="background: var(--color-mist);">
-          <div class="container-wide">
-            <div class="flex flex-wrap items-end justify-between gap-6 mb-10">
-              <div>
-                <p class="eyebrow mb-4" data-reveal>Step inside</p>
-                <h2 class="text-[clamp(1.8rem,3.2vw,2.6rem)]" data-reveal>Every room, in the round.</h2>
-                <p class="mt-3 max-w-lg text-[1rem]" style="color: var(--color-slate);" data-reveal [revealDelay]="60">
-                  Drag or swipe to move through the home. It drifts gently on its own if you'd rather just watch.
-                </p>
-              </div>
-              <div class="flex items-center gap-3">
-                <button (click)="orbit.prev()" aria-label="Previous room"
-                        class="h-12 w-12 rounded-full surface-card inline-flex items-center justify-center hover:-translate-y-0.5 transition-transform">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </button>
-                <button (click)="orbit.next()" aria-label="Next room"
-                        class="h-12 w-12 rounded-full surface-card inline-flex items-center justify-center hover:-translate-y-0.5 transition-transform">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </button>
-              </div>
-            </div>
-
-            <div class="relative rounded-[28px] overflow-hidden"
-                 style="background: radial-gradient(70% 90% at 50% 10%, #ffffff, var(--color-fog)); border:1px solid var(--color-line);">
-              <div class="h-[58vh] min-h-[420px] w-full">
-                <app-gallery-orbit #orbit [images]="p.rooms" (frontIndex)="frontIdx.set($event)" />
-              </div>
-              <!-- caption -->
-              <div class="pointer-events-none absolute inset-x-0 bottom-0 p-6 md:p-8"
-                   style="background: linear-gradient(0deg, rgba(251,250,247,0.95), transparent);">
-                <p class="text-[12px] uppercase tracking-[0.2em]" style="color: var(--color-oak-deep);">
-                  {{ frontIdx() + 1 }} / {{ p.rooms.length }} · {{ currentRoom()?.floor }}
-                </p>
-                <p class="display-serif text-2xl mt-1">{{ currentRoom()?.name }}</p>
-                <p class="text-[14px] max-w-2xl mt-1" style="color: var(--color-slate);">{{ currentRoom()?.caption }}</p>
-              </div>
-            </div>
-
-            <!-- thumbnails -->
-            <div class="mt-6 flex gap-3 overflow-x-auto pb-2">
-              @for (room of p.rooms; track room.image; let i = $index) {
-                <button (click)="orbit.goTo(i)"
-                        class="relative shrink-0 rounded-xl overflow-hidden transition-all duration-300"
-                        [style.outline]="frontIdx() === i ? '2px solid var(--color-oak)' : '2px solid transparent'"
-                        [style.opacity]="frontIdx() === i ? '1' : '0.6'"
-                        [attr.aria-label]="'Show ' + room.name">
-                  <img [src]="room.image" [alt]="room.name" class="h-16 w-24 object-cover" loading="lazy" />
-                </button>
-              }
-            </div>
-          </div>
-        </section>
-      }
-
-      <!-- ============ ROOM GRID ============ -->
-      @if (p.rooms.length) {
-        <section class="py-24" style="background: var(--color-canvas);">
-          <div class="container-wide">
-            <p class="eyebrow mb-4" data-reveal>The full tour</p>
-            <h2 class="text-[clamp(1.8rem,3.2vw,2.6rem)] mb-10" data-reveal>Room by room.</h2>
-            <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              @for (room of p.rooms; track room.image; let i = $index) {
-                <figure class="group" data-reveal [revealDelay]="(i % 3) * 80">
-                  <div class="overflow-hidden surface-card" style="border-radius: var(--radius-md); aspect-ratio: 4 / 3;">
-                    <img [src]="room.image" [alt]="room.caption"
-                         class="w-full h-full object-cover transition-transform duration-[1.1s] group-hover:scale-105" loading="lazy" />
-                  </div>
-                  <figcaption class="mt-3">
-                    <p class="display-serif text-lg">{{ room.name }}</p>
-                    <p class="text-[13px]" style="color: var(--color-muted);">{{ room.floor }}</p>
-                  </figcaption>
-                </figure>
-              }
-            </div>
-          </div>
-        </section>
-      }
-
-      <!-- ============ FEATURES + SUSTAINABILITY ============ -->
-      <section class="py-24" style="background: var(--color-mist);">
-        <div class="container-wide grid gap-14 lg:grid-cols-2">
-          <div>
-            <p class="eyebrow mb-4" data-reveal>Specification</p>
-            <h2 class="text-[clamp(1.7rem,3vw,2.3rem)] mb-8" data-reveal>Finished with intent.</h2>
-            <ul class="space-y-0">
-              @for (f of p.features; track f; let i = $index) {
-                <li class="flex items-start gap-3 py-3.5 border-t text-[15px]"
-                    style="border-color: var(--color-line);" data-reveal [revealDelay]="i * 40">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="mt-0.5 shrink-0"><path d="M5 12l5 5L20 7" stroke="#9c6f3d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  <span>{{ f }}</span>
-                </li>
-              }
-            </ul>
-          </div>
-
-          @if (p.sustainability.length) {
-            <div>
-              <p class="eyebrow mb-4" data-reveal>Sustainability</p>
-              <h2 class="text-[clamp(1.7rem,3vw,2.3rem)] mb-8" data-reveal>Runs gently.</h2>
-              <div class="grid gap-4 sm:grid-cols-2">
-                @for (s of p.sustainability; track s.title; let i = $index) {
-                  <div class="surface-card p-5" style="border-radius: var(--radius-md);" data-reveal [revealDelay]="i * 60">
-                    <span class="inline-flex h-9 w-9 items-center justify-center rounded-full mb-3"
-                          style="background: var(--color-sage-soft);">
-                      <span [innerHTML]="icon(s.icon)"></span>
-                    </span>
-                    <p class="font-medium mb-1">{{ s.title }}</p>
-                    <p class="text-[13.5px]" style="color: var(--color-slate);">{{ s.detail }}</p>
-                  </div>
-                }
-              </div>
-              <a routerLink="/sustainability" class="btn btn-ghost mt-8">Our full approach</a>
+      <!-- Project record -->
+      <section class="border-y" style="border-color: var(--color-line-strong); background: var(--color-surface);">
+        <div class="container-wide grid md:grid-cols-5">
+          @for (fact of facts(); track fact.label; let i = $index) {
+            <div class="border-b py-7 md:border-b-0 md:border-r md:px-7 md:first:pl-0 md:last:border-r-0" style="border-color: var(--color-line-strong);" data-reveal [revealDelay]="i * 50">
+              <p class="index-label">{{ fact.label }}</p>
+              <p class="mt-3 display-serif text-2xl">{{ fact.value }}</p>
             </div>
           }
         </div>
       </section>
 
-      <!-- ============ 360 TOUR (future-ready) ============ -->
-      <section class="py-24" style="background: var(--color-canvas);">
+      <!-- Delivery logic -->
+      <section class="py-24 md:py-36" style="background: var(--color-mist);">
         <div class="container-wide">
-          <div class="surface-card p-10 md:p-14 text-center relative overflow-hidden" style="border-radius: var(--radius-xl);">
-            <div class="pointer-events-none absolute inset-0 opacity-60"
-                 style="background: radial-gradient(50% 60% at 50% 0%, var(--color-sage-soft), transparent 70%);"></div>
-            <div class="relative">
-              <span class="chip chip-sage mb-5">Immersive tours</span>
-              <h2 class="text-[clamp(1.8rem,3.2vw,2.6rem)] max-w-2xl mx-auto text-balance">
-                360° virtual tours are ready to switch on.
-              </h2>
-              <p class="mt-4 max-w-xl mx-auto text-[1.02rem]" style="color: var(--color-slate);">
-                Every room is already wired for a drag-to-look-around panorama. The moment equirectangular
-                shots are captured, they appear here — no rebuild required.
+          <div class="grid gap-12 lg:grid-cols-[.75fr_1.25fr]">
+            <div data-reveal>
+              <p class="eyebrow mb-5">The transformation</p>
+              <h2 class="max-w-xl text-[clamp(3rem,5vw,5rem)]">Two additional bedrooms. One resolved home.</h2>
+              <p class="mt-7 max-w-md text-[15px] leading-relaxed" style="color: var(--color-slate);">
+                The value case depended on using the existing house more intelligently, then carrying that revised plan through a complete refurbishment.
               </p>
-              <div class="mt-8 flex flex-wrap justify-center gap-2.5">
-                @for (pano of p.panoramas; track pano.room) {
-                  <span class="chip" [class.chip-oak]="!!pano.url">
-                    {{ pano.room }} · {{ pano.url ? 'ready' : 'awaiting capture' }}
-                  </span>
-                }
-              </div>
-              <a routerLink="/enquire" class="btn btn-primary mt-9">Ask about a private tour</a>
+            </div>
+            <div class="grid border-l border-t md:grid-cols-3" style="border-color: var(--color-line-strong);">
+              @for (phase of phases; track phase.title; let i = $index) {
+                <div class="min-h-[350px] border-b border-r p-7" style="border-color: var(--color-line-strong);" data-reveal [revealDelay]="i * 70">
+                  <p class="index-label">0{{ i + 1 }}</p>
+                  <h3 class="mt-20 text-3xl">{{ phase.title }}</h3>
+                  <p class="mt-4 text-[14px]" style="color: var(--color-slate);">{{ phase.body }}</p>
+                </div>
+              }
             </div>
           </div>
         </div>
       </section>
 
-      <!-- ============ ENQUIRY CTA ============ -->
-      <section class="pb-28" style="background: var(--color-canvas);">
+      <!-- Editorial image sequence -->
+      <section class="py-20 md:py-28" style="background: var(--color-ink); color: var(--color-canvas);">
         <div class="container-wide">
-          <div class="rounded-[32px] p-10 md:p-14 text-center" style="background: var(--color-ink); color: var(--color-canvas);">
-            <h2 class="text-[clamp(1.8rem,3.4vw,2.6rem)] text-balance" style="color: var(--color-canvas);">
-              Like what you see?
-            </h2>
-            <p class="mt-4 max-w-xl mx-auto" style="color: rgba(251,250,247,0.72);">
-              Arrange a viewing of {{ p.name }}, ask a question, or register for the next release.
+          <div class="mb-12 flex flex-wrap items-end justify-between gap-6">
+            <div data-reveal>
+              <p class="eyebrow mb-5" style="color: var(--color-oak-soft);">Completed details</p>
+              <h2 class="text-[clamp(3.5rem,7vw,7rem)]" style="color: var(--color-canvas);">Room by room.</h2>
+            </div>
+            <p class="max-w-md text-[14px]" style="color: rgba(244,241,234,.58);">The material language carries from the principal rooms into the smallest details.</p>
+          </div>
+
+          <div class="grid gap-5 md:grid-cols-12">
+            @for (room of p.rooms; track room.image; let i = $index) {
+              <figure [class]="galleryClass(i)" data-reveal [revealDelay]="(i % 3) * 60">
+                <div class="image-wash h-full min-h-[360px] overflow-hidden">
+                  <img [src]="room.image" [alt]="room.caption" class="h-full w-full object-cover transition-transform duration-[1.2s] hover:scale-[1.02]" loading="lazy" />
+                </div>
+                <figcaption class="mt-3 flex items-baseline justify-between gap-4">
+                  <p class="display-serif text-xl" style="color: var(--color-canvas);">{{ room.name }}</p>
+                  <p class="text-[9px] uppercase tracking-[.18em]" style="color: rgba(244,241,234,.45);">{{ room.floor }}</p>
+                </figcaption>
+              </figure>
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- Specification and stewardship -->
+      <section class="py-24 md:py-36" style="background: var(--color-surface);">
+        <div class="container-wide grid gap-16 lg:grid-cols-2">
+          <div>
+            <p class="eyebrow mb-5" data-reveal>Specification</p>
+            <h2 class="text-[clamp(3rem,5vw,5rem)]" data-reveal>Built around durability.</h2>
+            <ul class="mt-10 border-t" style="border-color: var(--color-line-strong);">
+              @for (feature of p.features; track feature; let i = $index) {
+                <li class="grid grid-cols-[38px_1fr] border-b py-4 text-[14px]" style="border-color: var(--color-line);" data-reveal [revealDelay]="i * 35">
+                  <span class="index-label">{{ (i + 1).toString().padStart(2, '0') }}</span><span>{{ feature }}</span>
+                </li>
+              }
+            </ul>
+          </div>
+          <div>
+            <p class="eyebrow mb-5" data-reveal>Stewardship</p>
+            <h2 class="text-[clamp(3rem,5vw,5rem)]" data-reveal>Improved with the long term in mind.</h2>
+            <div class="mt-10 grid border-l border-t sm:grid-cols-2" style="border-color: var(--color-line-strong);">
+              @for (item of p.sustainability; track item.title; let i = $index) {
+                <div class="border-b border-r p-6" style="border-color: var(--color-line-strong);" data-reveal [revealDelay]="i * 50">
+                  <p class="index-label">0{{ i + 1 }}</p>
+                  <h3 class="mt-10 text-2xl">{{ item.title }}</h3>
+                  <p class="mt-3 text-[13px]" style="color: var(--color-slate);">{{ item.detail }}</p>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Case-study close -->
+      <section class="py-24 md:py-36" style="background: var(--color-oak-soft);">
+        <div class="container-wide grid gap-12 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
+          <div data-reveal>
+            <p class="eyebrow mb-5">What {{ p.name }} demonstrates</p>
+            <h2 class="max-w-5xl text-[clamp(3.3rem,6.5vw,6.6rem)]">A two-bedroom starting point. A four-bedroom result.</h2>
+          </div>
+          <div data-reveal [revealDelay]="80">
+            <p class="max-w-md text-[1rem]" style="color: var(--color-slate);">
+              {{ p.name }} turns ZenithStay’s approach into evidence: identify latent residential potential, resolve the configuration and deliver the whole asset to a consistent standard.
             </p>
-            <div class="mt-8 flex flex-wrap justify-center gap-3">
-              <a routerLink="/enquire" class="btn btn-oak">Make an enquiry</a>
-              <a routerLink="/portfolio" class="btn btn-ghost" style="color: var(--color-canvas); border-color: rgba(251,250,247,0.3);">Back to portfolio</a>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a routerLink="/strategy" class="btn btn-primary">Investment approach</a>
+              <a routerLink="/enquire" class="btn btn-ghost">Start a conversation</a>
             </div>
           </div>
         </div>
       </section>
     } @else {
-      <!-- NOT FOUND -->
-      <section class="pt-44 pb-32 text-center" style="background: var(--color-canvas);">
-        <div class="container-prose">
-          <p class="eyebrow mb-4">Not found</p>
-          <h1 class="text-4xl mb-4">We couldn't find that residence.</h1>
-          <p class="mb-8" style="color: var(--color-slate);">It may have moved, or the link may be out of date.</p>
-          <a routerLink="/portfolio" class="btn btn-primary">View the portfolio</a>
+      <section class="grid min-h-screen place-items-center pt-28" style="background: var(--color-canvas);">
+        <div class="container-prose text-center">
+          <p class="eyebrow mb-5">Project not found</p>
+          <h1 class="text-6xl">This case study has moved.</h1>
+          <a routerLink="/portfolio" class="btn btn-primary mt-8">View projects</a>
         </div>
       </section>
     }
@@ -265,53 +172,33 @@ import { SustainabilityItem } from '../../core/property.model';
 })
 export class PropertyDetailComponent {
   private readonly svc = inject(PropertyService);
-  private readonly sanitizer = inject(DomSanitizer);
-
-  /** Bound from the route param via withComponentInputBinding(). */
   readonly slug = input.required<string>();
   readonly property = computed(() => this.svc.bySlug(this.slug()));
 
-  readonly frontIdx = signal(0);
-  readonly currentRoom = computed(() => this.property()?.rooms[this.frontIdx()]);
-
   readonly facts = computed(() => {
-    const p = this.property();
-    if (!p) return [];
-    const s = p.specs;
+    const project = this.property();
+    if (!project) return [];
     return [
-      { label: 'Reference', value: p.ref },
-      { label: 'Tenure', value: s.tenure ?? '—' },
-      { label: 'Bedrooms', value: String(s.bedrooms) },
-      { label: 'Bath / shower rooms', value: String(s.bathrooms) },
-      { label: 'Receptions', value: String(s.receptions) },
-      { label: 'Internal area', value: s.areaSqm ? `${s.areaSqm} m² / ${s.areaSqft} sq ft` : '—' },
-      { label: 'EPC rating', value: s.epcRating ?? '—' },
-      { label: 'Council tax band', value: s.councilTaxBand ?? '—' },
-      { label: 'Renovated', value: s.yearRenovated ? String(s.yearRenovated) : '—' },
+      { label: 'Status', value: 'Completed' },
+      { label: 'Starting point', value: `${project.specs.originalBedrooms ?? 2}-bedroom house` },
+      { label: 'Completed form', value: `${project.specs.bedrooms}-bedroom home` },
+      { label: 'Scope', value: 'Reconfiguration + refurbishment' },
+      { label: 'Completion', value: String(project.specs.yearRenovated ?? '—') },
     ];
   });
 
-  statusLabel(s: string): string {
-    switch (s) {
-      case 'portfolio': return 'In the portfolio';
-      case 'available': return 'Open to enquiries';
-      case 'let': return 'Now let';
-      case 'coming-soon': return 'Coming soon';
-      default: return s;
-    }
-  }
+  readonly phases = [
+    { title: 'Reconfigure', body: 'Rework the existing two-bedroom arrangement into a credible four-bedroom plan with better use of the available space.' },
+    { title: 'Rebuild', body: 'Carry the new layout through a comprehensive refurbishment, coordinating rooms, services, materials and performance.' },
+    { title: 'Refine', body: 'Apply a consistent finish across the house so the completed four-bedroom home reads as one intentional asset.' },
+  ];
 
-  icon(key: SustainabilityItem['icon']): SafeHtml {
-    const paths: Record<SustainabilityItem['icon'], string> = {
-      leaf: '<path d="M11 20A7 7 0 0 1 9.8 6.1C15 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/>',
-      bolt: '<path d="M13 2 3 14h7l-1 8 10-12h-7z"/>',
-      droplet: '<path d="M12 2.7S6 9 6 13.5a6 6 0 0 0 12 0C18 9 12 2.7 12 2.7Z"/>',
-      thermometer: '<path d="M14 14.76V4a2 2 0 0 0-4 0v10.76a4 4 0 1 0 4 0Z"/>',
-      recycle: '<path d="M7 19H4.8a2 2 0 0 1-1.7-3l1.2-2M7 8l3-5 3 5M17 8l2 3.5a2 2 0 0 1-1.7 3H15M9 19h6"/>',
-      sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
-    };
-    return this.sanitizer.bypassSecurityTrustHtml(
-      `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5b6b52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${paths[key]}</svg>`,
-    );
+  galleryClass(index: number): string {
+    const pattern = [
+      'md:col-span-7', 'md:col-span-5 md:mt-24', 'md:col-span-5', 'md:col-span-7 md:mt-16',
+      'md:col-span-8', 'md:col-span-4 md:mt-28', 'md:col-span-4', 'md:col-span-8 md:mt-20',
+      'md:col-span-6', 'md:col-span-6 md:mt-16', 'md:col-span-12',
+    ];
+    return pattern[index % pattern.length];
   }
 }

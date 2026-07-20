@@ -1,25 +1,25 @@
 /**
- * Zenith Properties — domain model.
+ * ZenithStay Properties Limited — domain model.
  *
  * The whole site is data-driven from `properties.data.ts`. Adding a future
  * acquisition to the portfolio = append one `Property` object there. Every
  * page (home, portfolio grid, detail) reads from this shape, so nothing else
  * needs to change.
  *
- * Fields marked "future-ready" are intentionally present but may be empty for
- * now — they wire up features (360 tours, tenancy, map) without a refactor.
+ * Optional fields can be expanded as verified project and investment data is
+ * approved for publication.
  */
 
 export type PropertyStatus =
   | 'portfolio'    // owned & showcased, not for sale
   | 'available'    // open to enquiries / for sale
-  | 'let'          // tenanted
+  | 'let'          // held and currently occupied
   | 'coming-soon'; // acquisition in progress / placeholder
 
 export interface RoomImage {
   /** Human room label, shown as a caption. Editable — reorder freely. */
   name: string;
-  /** Path under /public, e.g. properties/juniper-house/kitchen.jpg */
+  /** Path under /public, e.g. properties/priory-road/kitchen.jpg */
   image: string;
   /** Short descriptive caption for the gallery + alt text. */
   caption: string;
@@ -42,6 +42,8 @@ export interface Panorama360 {
 }
 
 export interface PropertySpecs {
+  /** Bedroom count before ZenithStay's intervention, when relevant. */
+  originalBedrooms?: number;
   bedrooms: number;
   bathrooms: number;
   receptions: number;
@@ -57,7 +59,7 @@ export interface PropertySpecs {
 export interface Property {
   id: string;
   slug: string;
-  /** Display name of the residence, e.g. "Juniper House". */
+  /** Public project name, e.g. "Priory Road". */
   name: string;
   /** Portfolio reference, e.g. "ZP-01". */
   ref: string;

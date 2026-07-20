@@ -1,43 +1,43 @@
 import { Routes } from '@angular/router';
 
-/**
- * Route map. v1 fully builds Home / Portfolio / Property detail.
- * Enquire, Sustainability and the Tenant Portal are wired in as real routes
- * with working stubs, so the whole architecture is present and each can be
- * fleshed out without restructuring.
- *
- * Lazy-loaded standalone components keep the initial bundle lean.
- */
 export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
-    title: 'Zenith Properties — A curated portfolio of considered homes',
+    title: 'ZenithStay Properties — Residential property investment',
   },
   {
     path: 'portfolio',
     loadComponent: () => import('./pages/portfolio/portfolio.component').then((m) => m.PortfolioComponent),
-    title: 'Portfolio — Zenith Properties',
+    title: 'Projects — ZenithStay Properties',
+  },
+  {
+    path: 'project/:slug',
+    loadComponent: () => import('./pages/property-detail/property-detail.component').then((m) => m.PropertyDetailComponent),
+    title: 'Project case study — ZenithStay Properties',
   },
   {
     path: 'property/:slug',
-    loadComponent: () => import('./pages/property-detail/property-detail.component').then((m) => m.PropertyDetailComponent),
-    title: 'The Residence — Zenith Properties',
+    redirectTo: 'project/:slug',
+  },
+  {
+    path: 'strategy',
+    loadComponent: () => import('./pages/strategy/strategy.component').then((m) => m.StrategyComponent),
+    title: 'Investment approach — ZenithStay Properties',
+  },
+  {
+    path: 'about',
+    loadComponent: () => import('./pages/about/about.component').then((m) => m.AboutComponent),
+    title: 'About — ZenithStay Properties',
   },
   {
     path: 'sustainability',
-    loadComponent: () => import('./pages/sustainability/sustainability.component').then((m) => m.SustainabilityComponent),
-    title: 'Sustainability — Zenith Properties',
+    redirectTo: 'strategy',
   },
   {
     path: 'enquire',
     loadComponent: () => import('./pages/enquire/enquire.component').then((m) => m.EnquireComponent),
-    title: 'Make an enquiry — Zenith Properties',
-  },
-  {
-    path: 'portal',
-    loadComponent: () => import('./pages/portal/portal.component').then((m) => m.PortalComponent),
-    title: 'Tenant portal — Zenith Properties',
+    title: 'Contact — ZenithStay Properties',
   },
   { path: '**', redirectTo: '' },
 ];

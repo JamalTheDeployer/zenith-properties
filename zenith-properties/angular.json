@@ -2,11 +2,15 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": false,
+    "cache": {
+      "enabled": false
+    }
   },
   "newProjectRoot": "projects",
   "projects": {
-    "arenix-portfolio": {
+    "zenith-properties": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -33,6 +37,14 @@
           },
           "configurations": {
             "production": {
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": true
+                },
+                "fonts": false
+              },
               "budgets": [
                 {
                   "type": "initial",
@@ -59,10 +71,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "arenix-portfolio:build:production"
+              "buildTarget": "zenith-properties:build:production"
             },
             "development": {
-              "buildTarget": "arenix-portfolio:build:development"
+              "buildTarget": "zenith-properties:build:development"
             }
           },
           "defaultConfiguration": "development"
