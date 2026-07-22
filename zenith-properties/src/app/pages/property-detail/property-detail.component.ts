@@ -7,6 +7,47 @@ import { PropertyService } from '../../core/property.service';
   selector: 'app-property-detail',
   standalone: true,
   imports: [RouterLink, RevealDirective],
+  styles: [`
+    .project-film-stage {
+      aspect-ratio: 16 / 9;
+      background: #111813;
+    }
+
+    .project-film-frame {
+      --film-delay: 0s;
+      animation: project-film-frame 32s infinite both;
+      animation-delay: var(--film-delay);
+      opacity: 0;
+    }
+
+    .project-film-frame img {
+      animation: project-film-move 32s infinite linear both;
+      animation-delay: var(--film-delay);
+      transform: scale(1.025);
+    }
+
+    @keyframes project-film-frame {
+      0% { opacity: 0; }
+      1.5%, 12.75% { opacity: 1; }
+      14.5%, 100% { opacity: 0; }
+    }
+
+    @keyframes project-film-move {
+      0% { transform: scale(1.025) translate3d(-.4%, .2%, 0); }
+      14.5% { transform: scale(1.095) translate3d(.4%, -.35%, 0); }
+      100% { transform: scale(1.095) translate3d(.4%, -.35%, 0); }
+    }
+
+    @media (max-width: 767px) {
+      .project-film-stage { aspect-ratio: 4 / 5; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .project-film-frame,
+      .project-film-frame img { animation: none; }
+      .project-film-frame:first-child { opacity: 1; }
+    }
+  `],
   template: `
     @if (property(); as p) {
       <section class="relative min-h-[92svh] overflow-hidden pt-[82px]">
@@ -80,6 +121,44 @@ import { PropertyService } from '../../core/property.service';
                 </div>
               }
             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cinematic project sequence -->
+      <section class="overflow-hidden py-20 md:py-28" style="background: var(--color-ink); color: var(--color-canvas);">
+        <div class="container-wide">
+          <div class="grid gap-10 border-b pb-10 lg:grid-cols-[1.1fr_.9fr] lg:items-end" style="border-color: rgba(244,241,234,.18);">
+            <div data-reveal>
+              <p class="eyebrow mb-5" style="color: var(--color-oak-soft);">Project film · 32 seconds</p>
+              <h2 class="max-w-5xl text-[clamp(3.3rem,6vw,6.4rem)]" style="color: var(--color-canvas);">From opened structure to finished home.</h2>
+            </div>
+            <p class="max-w-xl text-[15px] leading-relaxed lg:justify-self-end" style="color: rgba(244,241,234,.58);" data-reveal [revealDelay]="70">
+              A concise visual sequence moves from the structural intervention through to the completed four-bedroom home—presented as evidence of delivery, not a property reel.
+            </p>
+          </div>
+
+          <div class="project-film-stage relative mt-10 overflow-hidden border" style="border-color: rgba(244,241,234,.16);" aria-label="Priory Road transformation sequence" data-reveal>
+            @for (shot of film; track shot.image; let i = $index) {
+              <figure class="project-film-frame absolute inset-0" [style.--film-delay]="filmDelay(i)" aria-hidden="true">
+                <img [src]="shot.image" alt="" class="absolute inset-0 h-full w-full object-cover" [attr.loading]="i === 0 ? 'eager' : 'lazy'" />
+                <figcaption class="absolute bottom-7 left-7 z-20 max-w-sm md:bottom-10 md:left-10">
+                  <p class="text-[9px] font-semibold uppercase tracking-[.23em] text-white/55">{{ (i + 1).toString().padStart(2, '0') }} / {{ shot.chapter }}</p>
+                  <p class="mt-2 display-serif text-3xl text-white md:text-5xl">{{ shot.label }}</p>
+                </figcaption>
+              </figure>
+            }
+            <div class="pointer-events-none absolute inset-0 z-10" style="background: linear-gradient(180deg, rgba(8,13,10,.14), rgba(8,13,10,.08) 42%, rgba(8,13,10,.82));"></div>
+            <div class="pointer-events-none absolute left-7 right-7 top-7 z-20 flex items-center justify-between border-b pb-4 md:left-10 md:right-10 md:top-9" style="border-color: rgba(255,255,255,.28);">
+              <p class="text-[9px] font-semibold uppercase tracking-[.23em] text-white/70">Priory Road · {{ p.ref }}</p>
+              <p class="text-[9px] font-semibold uppercase tracking-[.23em] text-white/70">Two bedrooms <span class="mx-2 text-white/35">→</span> Four bedrooms</p>
+            </div>
+          </div>
+
+          <div class="mt-5 grid grid-cols-8 gap-2" aria-hidden="true">
+            @for (shot of film; track shot.image) {
+              <span class="h-px" style="background: rgba(244,241,234,.28);"></span>
+            }
           </div>
         </div>
       </section>
@@ -226,6 +305,21 @@ export class PropertyDetailComponent {
     { title: 'Rebuild', body: 'Carry the new layout through a comprehensive refurbishment, coordinating rooms, services, materials and performance.' },
     { title: 'Refine', body: 'Apply a consistent finish across the house so the completed four-bedroom home reads as one intentional asset.' },
   ];
+
+  readonly film = [
+    { image: 'properties/priory-road/development-stripped-shell.jpg', chapter: 'Opening', label: 'The structure opened' },
+    { image: 'properties/priory-road/development-spatial-frame.jpg', chapter: 'Planning', label: 'A new spatial order' },
+    { image: 'properties/priory-road/development-first-fix.jpg', chapter: 'Delivery', label: 'Services coordinated' },
+    { image: 'properties/priory-road/development-loft-room.jpg', chapter: 'Volume', label: 'Additional accommodation' },
+    { image: 'properties/priory-road/development-kitchen-fitout.jpg', chapter: 'Fit-out', label: 'The material plan arrives' },
+    { image: 'properties/priory-road/clean/kitchen-clean.jpg', chapter: 'Completion', label: 'A resolved kitchen' },
+    { image: 'properties/priory-road/clean/furnished-bedroom-clean.jpg', chapter: 'Completion', label: 'Four credible bedrooms' },
+    { image: 'properties/priory-road/clean/staircase-clean.jpg', chapter: 'Result', label: 'One coherent home' },
+  ];
+
+  filmDelay(index: number): string {
+    return `${(index * 4) - 0.5}s`;
+  }
 
   galleryClass(index: number): string {
     const pattern = [
