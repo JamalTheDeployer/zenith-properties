@@ -27,6 +27,15 @@ export interface RoomImage {
   floor?: string;
 }
 
+export interface DevelopmentImage {
+  /** Short phase label shown in the project record. */
+  stage: string;
+  /** Path under /public to an authentic progress photograph. */
+  image: string;
+  /** Concise explanation of what the photograph evidences. */
+  caption: string;
+}
+
 export interface SustainabilityItem {
   title: string;
   detail: string;
@@ -81,6 +90,8 @@ export interface Property {
   heroImage: string;
   specs: PropertySpecs;
   features: string[];
+  /** Optional evidence from key delivery stages, ordered for presentation. */
+  development?: DevelopmentImage[];
   rooms: RoomImage[];
   sustainability: SustainabilityItem[];
 

@@ -84,6 +84,40 @@ import { PropertyService } from '../../core/property.service';
         </div>
       </section>
 
+      @if (p.development?.length) {
+        <!-- Development evidence -->
+        <section class="py-24 md:py-36" style="background: var(--color-canvas);">
+          <div class="container-wide">
+            <div class="grid gap-10 border-b pb-10 lg:grid-cols-[1.15fr_.85fr] lg:items-end" style="border-color: var(--color-line-strong);">
+              <div data-reveal>
+                <p class="eyebrow mb-5">Development record</p>
+                <h2 class="max-w-4xl text-[clamp(3.2rem,6vw,6.2rem)]">Evidence of the work, not just the finish.</h2>
+              </div>
+              <p class="max-w-xl text-[15px] leading-relaxed lg:justify-self-end" style="color: var(--color-slate);" data-reveal [revealDelay]="70">
+                Selected stages show how Priory Road moved from an opened structure to a resolved four-bedroom home. The record matters: it makes the scope, sequence and substance of the intervention visible.
+              </p>
+            </div>
+
+            <div class="mt-12 grid gap-x-5 gap-y-16 md:grid-cols-12 md:gap-y-24">
+              @for (item of p.development; track item.image; let i = $index) {
+                <figure [class]="developmentClass(i)" data-reveal [revealDelay]="(i % 2) * 70">
+                  <div [class]="developmentImageClass(i)">
+                    <img [src]="item.image" [alt]="item.stage + ' at Priory Road'" class="h-full w-full object-cover transition-transform duration-[1.2s] hover:scale-[1.015]" loading="lazy" />
+                  </div>
+                  <figcaption class="mt-4 grid grid-cols-[44px_1fr] gap-4 border-t pt-4" style="border-color: var(--color-line);">
+                    <p class="index-label">{{ (i + 1).toString().padStart(2, '0') }}</p>
+                    <div>
+                      <h3 class="text-2xl">{{ item.stage }}</h3>
+                      <p class="mt-2 max-w-xl text-[13px]" style="color: var(--color-slate);">{{ item.caption }}</p>
+                    </div>
+                  </figcaption>
+                </figure>
+              }
+            </div>
+          </div>
+        </section>
+      }
+
       <!-- Editorial image sequence -->
       <section class="py-20 md:py-28" style="background: var(--color-ink); color: var(--color-canvas);">
         <div class="container-wide">
@@ -198,6 +232,27 @@ export class PropertyDetailComponent {
       'md:col-span-7', 'md:col-span-5 md:mt-24', 'md:col-span-5', 'md:col-span-7 md:mt-16',
       'md:col-span-8', 'md:col-span-4 md:mt-28', 'md:col-span-4', 'md:col-span-8 md:mt-20',
       'md:col-span-6', 'md:col-span-6 md:mt-16', 'md:col-span-12',
+    ];
+    return pattern[index % pattern.length];
+  }
+
+  developmentClass(index: number): string {
+    const pattern = [
+      'md:col-span-5', 'md:col-span-7 md:pt-24',
+      'md:col-span-7', 'md:col-span-5 md:pt-24',
+      'md:col-span-5', 'md:col-span-7 md:pt-24',
+    ];
+    return pattern[index % pattern.length];
+  }
+
+  developmentImageClass(index: number): string {
+    const pattern = [
+      'image-wash h-[520px] overflow-hidden md:h-[720px]',
+      'image-wash h-[500px] overflow-hidden md:h-[650px]',
+      'image-wash h-[500px] overflow-hidden md:h-[650px]',
+      'image-wash h-[440px] overflow-hidden md:h-[520px]',
+      'image-wash h-[520px] overflow-hidden md:h-[720px]',
+      'image-wash h-[500px] overflow-hidden md:h-[650px]',
     ];
     return pattern[index % pattern.length];
   }
